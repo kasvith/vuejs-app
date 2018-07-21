@@ -69,7 +69,7 @@
                   <v-layout row>
                     <v-flex xs12>
                                 <v-select
-                                    :items="items"
+                                    :items="item"
                                     label="Select Driver"
                                     v-model="vehicle.vehicleDriver"
                                 ></v-select>
@@ -250,7 +250,7 @@ export default {
 
                 },
 
-            items: ['Select a driver'],
+            item: ['Select a driver'],
             date1: null,
             date2: null,
             date3: null,
@@ -351,17 +351,17 @@ export default {
     })
     .catch(e => {
       self.errors.push(e)
-    }),
+    })
 
     
-    axios.get(`http://localhost:5555/show-drivers`,{
+ axios.get(`http://localhost:5555/show-drivers`,{
     params: {
       username:self.$session.get('username')
     }
   })
     .then(response => {
       // JSON responses are automatically parsed.
-      self.items = response.data
+      this.item = response.data
      
       
     })
