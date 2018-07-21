@@ -28,7 +28,7 @@
 
             <v-list-tile router-link to='/'>
                 <v-list-tile-action><v-icon>account_circle</v-icon></v-list-tile-action>
-                <v-list-tile-content>Logout</v-list-tile-content>
+                <v-list-tile-content><v-btn @click="logout">Logout</v-btn></v-list-tile-content>
             </v-list-tile>
         </v-list>
     </v-navigation-drawer> 
@@ -63,6 +63,12 @@
       ]
     
     }),
+
+    methods :{
+        logout(){
+            this.$session.destroy()
+        }
+    }
 
    
 

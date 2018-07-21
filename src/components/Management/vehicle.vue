@@ -223,7 +223,7 @@
         >
             <template slot="items" slot-scope="props">
             <td>{{ props.item.deviceId }}</td>
-            <td><v-btn to="/details">{{ props.item.vehicleNum }}</v-btn></td>
+            <td><v-btn @click="details(props.item.vehicleNum)">{{ props.item.vehicleNum }}</v-btn></td>
             <td>{{ props.item.vehicleMake }}</td>
             <td>{{ props.item.vehicleModel }}</td>
             <td>{{ props.item.licenseDate }}</td>
@@ -313,6 +313,13 @@ export default {
       },
       save (date1) {
         this.$refs.menu3.save(date1)
+      },
+
+      details(n){
+        console.log(n)
+        this.$session.start
+        this.$session.set('vehicleNum', n)
+         this.$router.push('/details');
       },
 
     createVehicle(){

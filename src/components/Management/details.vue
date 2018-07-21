@@ -25,11 +25,15 @@
                                 <v-flex sm4>
                                     <v-card-title>
                                         <div>
-                                        <h3>Vehicle Number:</h3>{{vehi_num}}<br>
-                                        <h3>Vehicle Model:</h3>{{vehi_model}}<br>
-                                        <h3>Next license date:</h3>{{license}}<br>
-                                        <h3>Next Insurance date:</h3>{{insurance}}<br>
-                                        <h3>Next Service date:</h3>{{service}}<br>
+                                            <h3>Device Id:</h3>{{vehicle.deviceId}}<br>
+                                            <h3>Vehicle Number:</h3>{{vehicle.vehicleNum}}<br>
+                                            <h3>Vehicle Make:</h3>{{vehicle.vehicleMake}}<br>
+                                            <h3>Vehicle Model:</h3>{{vehicle.vehicleModel}}<br>
+                                            <h3>Assigned Driver:</h3>{{vehicle.vehicleDriver}}<br>
+                                            <h3>No. of Seats:</h3>{{vehicle.NoOfSeats}}<br>
+                                            <h3>Next license date:</h3>{{vehicle.licenseDate}}<br>
+                                            <h3>Next Insurance date:</h3>{{vehicle.insuranceDate}}<br>
+                                            <h3>Next Service date:</h3>{{vehicle.serviceDate}}<br>
                                         </div>
                                         </v-card-title>
                                         
@@ -66,6 +70,7 @@
 
 <script>
 import Map from '@/components/map'
+import axios from "axios";
 export default {
     props: {
             value: {
@@ -80,12 +85,8 @@ export default {
     data(){
         return{
             imageUrl:'',
-
-            vehi_num:'ABC-0000',
-            vehi_model:'abc',
-            license:'2012/03/22',
-            insurance:'2012/03/20',
-            service:'2012/03/10',
+            vehicle:{},
+            
             value:false,
             
         
@@ -93,11 +94,26 @@ export default {
     },
 
     created(){
-       
+        const self = this;
          if(!this.$session.has('username')){
             this.$router.push('/login');
         }
-           
+        console.log("at details num is "+this.$session.get('vehicleNum'))
+        
+        
+       axios.get(`http://localhost:5555/getVehicle`,{
+    params: {
+      vehicleNum:self.$session.get('vehicleNum')
+    }
+  })
+          .then(response=>{
+            console.log(response)
+            self.vehicle = response.data       
+              
+          })
+          .catch(error=>{
+            console.log(error.response.data.parse)
+          });           
     },
 
     components:{
