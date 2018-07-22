@@ -86,21 +86,15 @@ export default {
 methods: {
     
     sendUser(){
-       // const response ="null";
-        
-        console.log(this.user);
+       
        let uri='http://localhost:5555/login';
         //axios.post(uri,{user: this.user})
         axios.post(uri, this.user)
           .then(res=>{
-            console.log(res)
-                       
-              console.log("test1")
-              console.log(res.data.response)
+            
             if(res.data.response=="success"){   
                this.$session.start
-                this.$session.set('username', this.user.username)
-                console.log(this.$session.get('username'))
+                this.$session.set('username', this.user.username)               
                 this.$router.push('/home');
             }
           

@@ -122,7 +122,7 @@
                             v-model="vehicle.licenseDate"
                             :max="new Date().toISOString().substr(0, 10)"
                             min="1950-01-01"
-                            @change="save"
+                            @change="save1"
                             ></v-date-picker>
                         </v-menu>
                     </v-flex>
@@ -153,7 +153,7 @@
                             v-model="vehicle.insuranceDate"
                             :max="new Date().toISOString().substr(0, 10)"
                             min="1950-01-01"
-                            @change="save"
+                            @change="save2"
                             ></v-date-picker>
                         </v-menu>
                     </v-flex>
@@ -184,7 +184,7 @@
                             v-model="vehicle.serviceDate"
                             :max="new Date().toISOString().substr(0, 10)"
                             min="1950-01-01"
-                            @change="save"
+                            @change="save3"
                             ></v-date-picker>
                         </v-menu>
                     </v-flex>
@@ -305,18 +305,18 @@ export default {
       }
     },
     methods: {
-      save (date1) {
+      save1 (date1) {
         this.$refs.menu1.save(date1)
       },
-      save (date1) {
+      save2 (date1) {
         this.$refs.menu2.save(date1)
       },
-      save (date1) {
+      save3 (date1) {
         this.$refs.menu3.save(date1)
       },
 
       details(n){
-        console.log(n)
+       // console.log(n)
         this.$session.start
         this.$session.set('vehicleNum', n)
          this.$router.push('/details');
@@ -325,11 +325,11 @@ export default {
     createVehicle(){
          const self = this;
         self.vehicle.owner=self.$session.get('username')
-        console.log(self.vehicle);
+       // console.log(self.vehicle);
         let uri='http://localhost:5555/saveVehicle';
         axios.post(uri,self.vehicle)
           .then(response=>{
-            console.log(response)
+            //console.log(response)
           })
           .catch(error=>{
             console.log(error.response.data.parse)
@@ -344,7 +344,7 @@ export default {
                 this.$router.push('/login');
          }
          this.$session.start
-        console.log(self.$session.get('username'))
+        
     axios.get(`http://localhost:5555/show-vehicles`,{
     params: {
       username:self.$session.get('username')
@@ -353,7 +353,7 @@ export default {
     .then(response => {
       // JSON responses are automatically parsed.
       self.vehicles = response.data
-     // console.log(this.vehicles)
+    
       
     })
     .catch(e => {

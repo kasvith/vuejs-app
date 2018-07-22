@@ -195,7 +195,7 @@ export default {
                 this.$router.push('/login');
          }
       this.$session.start
-      console.log( self.$session.get('username'))
+      
     axios.get(`http://localhost:5555/show-drivers`,{
     params: {
       username:self.$session.get('username')
@@ -204,9 +204,9 @@ export default {
 
     .then(response => {
       // JSON responses are automatically parsed.
-      console.log(response)
+     
       this.posts = response.data
-      console.log(self.$session.get('username'))
+      
      
     })
     .catch(e => {

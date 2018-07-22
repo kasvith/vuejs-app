@@ -14,7 +14,7 @@
                             <v-layout row>
                                 <v-flex xs12 sm8>
                                     <v-card-media
-                                    :src="imageUrl"
+                                   :src="imageUrl"
                                     ref="imageUrl"
                                     height="500px"
                                     @click="onPickFile"
@@ -30,7 +30,7 @@
                                             <h3>Vehicle Make:</h3>{{vehicle.vehicleMake}}<br>
                                             <h3>Vehicle Model:</h3>{{vehicle.vehicleModel}}<br>
                                             <h3>Assigned Driver:</h3>{{vehicle.vehicleDriver}}<br>
-                                            <h3>No. of Seats:</h3>{{vehicle.NoOfSeats}}<br>
+                                            <h3>Number of Seats:</h3>{{vehicle.noOfSeats}}<br>
                                             <h3>Next license date:</h3>{{vehicle.licenseDate}}<br>
                                             <h3>Next Insurance date:</h3>{{vehicle.insuranceDate}}<br>
                                             <h3>Next Service date:</h3>{{vehicle.serviceDate}}<br>
@@ -38,12 +38,10 @@
                                         </v-card-title>
                                         
                                         <v-card-text>
-                                            <div>
-
+                                            <div>                                                    
                                                 <v-btn fab dark color="secondary"  @click="onPickFile">
                                                     <v-icon dark>photo_library</v-icon>
                                                 </v-btn>
-
                                                 <input
                                                     type="file"
                                                     ref="image"
@@ -85,12 +83,14 @@ export default {
     data(){
         return{
             imageUrl:'',
+            
             vehicle:{},
             
             value:false,
             
         
         }
+       
     },
 
     created(){
@@ -98,7 +98,7 @@ export default {
          if(!this.$session.has('username')){
             this.$router.push('/login');
         }
-        console.log("at details num is "+this.$session.get('vehicleNum'))
+       
         
         
        axios.get(`http://localhost:5555/getVehicle`,{
