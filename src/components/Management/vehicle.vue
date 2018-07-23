@@ -92,7 +92,7 @@
                                     name="No_of_seats"
                                     label="No_of_seats"
                                     id="No_of_seats"
-                                    v-model="vehicle.NoOfSeats"
+                                    v-model="vehicle.noOfSeats"
                                     required>
                                 </v-text-field>
                             </v-flex>
@@ -118,11 +118,9 @@
                             readonly
                             ></v-text-field>
                             <v-date-picker
-                            ref="picker"
+                           
                             v-model="vehicle.licenseDate"
-                            :max="new Date().toISOString().substr(0, 10)"
-                            min="1950-01-01"
-                            @change="save1"
+                            @input="menu1=false"
                             ></v-date-picker>
                         </v-menu>
                     </v-flex>
@@ -149,11 +147,9 @@
                             readonly
                             ></v-text-field>
                             <v-date-picker
-                            ref="picker"
+                           @input="menu2=false"
                             v-model="vehicle.insuranceDate"
-                            :max="new Date().toISOString().substr(0, 10)"
-                            min="1950-01-01"
-                            @change="save2"
+                           
                             ></v-date-picker>
                         </v-menu>
                     </v-flex>
@@ -180,11 +176,9 @@
                             readonly
                             ></v-text-field>
                             <v-date-picker
-                            ref="picker"
+                           
                             v-model="vehicle.serviceDate"
-                            :max="new Date().toISOString().substr(0, 10)"
-                            min="1950-01-01"
-                            @change="save3"
+                             @input="menu3=false"
                             ></v-date-picker>
                         </v-menu>
                     </v-flex>
@@ -293,7 +287,7 @@ export default {
         }
     },
 
-    watch: {
+    /*watch: {
       menu1 (val) {
         val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
       },
@@ -303,9 +297,9 @@ export default {
       menu3 (val) {
         val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
       }
-    },
+    },*/
     methods: {
-      save1 (date1) {
+      /*save1 (date1) {
         this.$refs.menu1.save(date1)
       },
       save2 (date1) {
@@ -313,7 +307,7 @@ export default {
       },
       save3 (date1) {
         this.$refs.menu3.save(date1)
-      },
+      },*/
 
       details(n){
        // console.log(n)
@@ -323,13 +317,13 @@ export default {
       },
 
     createVehicle(){
-         const self = this;
+        const self = this;
         self.vehicle.owner=self.$session.get('username')
-       // console.log(self.vehicle);
+        console.log(self.vehicle);
         let uri='http://localhost:5555/saveVehicle';
         axios.post(uri,self.vehicle)
           .then(response=>{
-            //console.log(response)
+            console.log(response)
           })
           .catch(error=>{
             console.log(error.response.data.parse)
