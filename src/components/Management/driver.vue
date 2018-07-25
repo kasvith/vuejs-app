@@ -88,16 +88,14 @@
         <v-container fluid>
          <v-data-table
             :headers="headers"
-            :items="posts"
-            hide-actions
+            :items="posts"            
             class="elevation-1"
         >
-            <template slot="items" slot-scope="props">
-            <td>{{ props.item.id }}</td>            
-            <td>{{ props.item.name }}</td>
-            <td>{{ props.item.tel }}</td>
-            <td>{{ props.item.nationalId }}</td>
-            
+            <template slot="items" slot-scope="props">     
+              <td>{{ props.item.name }}</td>
+              <td>{{ props.item.tel }}</td>
+              <td>{{ props.item.nationalId }}</td>
+              <td><v-icon exact :style="{ cursor: 'pointer'}" @click="deleteDriver(props.item.id);deleteIndex(props.item)">delete</v-icon></td>              
             </template>
         </v-data-table>
         </v-container>
@@ -110,24 +108,22 @@ import Toolbar1 from '@/components/toolbar1'
 import axios from "axios";
 export default {
    data () {
+     
+
       return {
-        posts: [],
+       posts: [],
         driver:{
 
         },
 
         dialog:false,
         headers: [
-          {
-             text: 'ID',
-            align: 'left',
-            sortable: false,
-            value: 'id' 
-          },
+         
          /*  { text: 'ID', value: 'id' }, */
-          { text: 'Name', value: 'name' },
-          { text: 'National ID', value: 'nationalId' },
-          { text: 'Telephone Number', value: 'tel' },
+          { text: 'Name', value: 'name' ,sortable:false},
+          { text: 'Telephone Number', value: 'nationalId' ,sortable:false},
+          { text: 'National ID', value: 'tel',sortable:false },
+          { text: 'Delete', value: 'delete',sortable:false },
         ],
       /* posts: [
           {
@@ -177,6 +173,8 @@ export default {
             console.log(response)
             if(response.data.response=="success"){               
                 self.$router.push('/driver');
+                console.log("im in")
+                self.posts.push(self.driver)
             }
           })
           .catch(error=>{
@@ -214,6 +212,40 @@ export default {
     })
     },
 
+  methods:{
+    
+    deleteDriver(n){
+      const self = this;
+          axios.get(`http://localhost:5555/delete-driver`,{
+    params: {
+      id:n
+    },
+
+    
+  })
+
+    .then(response => {
+      // JSON responses are automatically parsed.
+     
+      if(response.data.response=="success"){
+          console.log("Driver Deleted")  
+          
+             
+      }
+      
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+    },
+
+    deleteIndex(index){
+      const self = this;     
+      const itemIndex = self.posts.indexOf(index)
+      confirm('Are you sure you want to delete this driver?') && self.posts.splice(itemIndex, 1)
+        
+    },
+  },
     components:{
       'app-toolbar':Toolbar1
     }

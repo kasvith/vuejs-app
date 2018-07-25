@@ -12,14 +12,14 @@
                 <v-list-tile-action><v-icon>{{item.icon}}</v-icon></v-list-tile-action>
                 <v-list-tile-content>{{item.title}}</v-list-tile-content>
             </v-list-tile>
-            
-            
+
+
             <v-list-group >
                 <v-list-tile slot="activator">
                     <v-list-tile-action><v-icon>collections_bookmark</v-icon></v-list-tile-action>
                 <v-list-tile-content>Reports</v-list-tile-content>
-                </v-list-tile>         
-                
+                </v-list-tile> 
+
                 <v-list-tile v-for="item in reportItems" :key="item.title" :to="item.link">
                 <v-list-tile-action><v-icon>{{item.icon}}</v-icon></v-list-tile-action>
                 <v-list-tile-content>{{item.title}}</v-list-tile-content>
@@ -39,6 +39,10 @@
     <v-toolbar-title><router-link to="/home" tag="span" style="cursor:pointer">TrackMe</router-link></v-toolbar-title>        
     <v-toolbar-items class="hidden-xs-only">
         <v-btn flat to='/home' class="hidden-xs-only">Home</v-btn>
+     </v-toolbar-items>
+     <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-xs-only, mt-5">
+        <p> Hi <u>{{this.$session.get("username")}}</u></p>
      </v-toolbar-items>
 
     </v-toolbar>

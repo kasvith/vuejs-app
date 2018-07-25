@@ -25,15 +25,16 @@
                                 <v-flex sm4>
                                     <v-card-title>
                                         <div>
-                                            <h3>Device Id:</h3>{{vehicle.deviceId}}<br>
-                                            <h3>Vehicle Number:</h3>{{vehicle.vehicleNum}}<br>
-                                            <h3>Vehicle Make:</h3>{{vehicle.vehicleMake}}<br>
-                                            <h3>Vehicle Model:</h3>{{vehicle.vehicleModel}}<br>
-                                            <h3>Assigned Driver:</h3>{{vehicle.vehicleDriver}}<br>
-                                            <h3>Number of Seats:</h3>{{vehicle.noOfSeats}}<br>
-                                            <h3>Next license date:</h3>{{vehicle.licenseDate}}<br>
-                                            <h3>Next Insurance date:</h3>{{vehicle.insuranceDate}}<br>
-                                            <h3>Next Service date:</h3>{{vehicle.serviceDate}}<br>
+                                            <p style="font-size:18px">Device Id: <v-chip outline color="primary">{{vehicle.deviceId}}</v-chip></p>
+                                            <p style="font-size:18px">Vehicle Number: <v-chip outline color="primary">{{vehicle.vehicleNum}}</v-chip></p>
+                                            <p style="font-size:18px">Vehicle Make: <v-chip outline color="primary">{{vehicle.vehicleMake}}</v-chip></p>
+                                            <p style="font-size:18px">Vehicle Model: <v-chip outline color="primary">{{vehicle.vehicleModel}}</v-chip></p>
+                                            <p style="font-size:18px">Driver: <v-chip outline color="primary">{{vehicle.vehicleDriver}}</v-chip></p>
+                                            <p style="font-size:18px">Number of seats: <v-chip outline color="primary">{{vehicle.noOfSeats}}</v-chip></p>
+                                            <p style="font-size:18px">License Date: <v-chip outline color="primary">{{vehicle.licenseDate}}</v-chip></p>
+                                            <p style="font-size:18px">Insurance Date: <v-chip outline color="primary">{{vehicle.insuranceDate}}</v-chip></p>
+                                            <p style="font-size:18px">Service Date: <v-chip outline color="primary">{{vehicle.serviceDate}}</v-chip></p>
+                                           
                                         </div>
                                         </v-card-title>
                                         

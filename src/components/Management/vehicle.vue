@@ -68,11 +68,20 @@
                   </v-layout>
                   <v-layout row>
                     <v-flex xs12>
-                                <v-select
+                               <!-- <v-select
                                     :items="item"
                                     label="Select Driver"
                                     v-model="vehicle.vehicleDriver"
-                                ></v-select>
+                                ></v-select>-->
+                                
+                                <v-select            
+                                  :items="items"
+                                  solo
+                                  label="Vehicle Number"
+                                  class=""
+                                  flat
+                >
+                </v-select>
                             </v-flex>
                   </v-layout>
                   <v-layout row>
@@ -211,8 +220,7 @@
         <v-container fluid>
           <v-data-table
             :headers="headers"
-            :items="vehicles"
-            hide-actions
+            :items="vehicles"         
             class="elevation-1"
         >
             <template slot="items" slot-scope="props">
@@ -220,9 +228,12 @@
             <td><v-btn @click="details(props.item.vehicleNum)">{{ props.item.vehicleNum }}</v-btn></td>
             <td>{{ props.item.vehicleMake }}</td>
             <td>{{ props.item.vehicleModel }}</td>
+            <td>{{ props.item.vehicleDriver }}</td>
+            <td>{{ props.item.noOfSeats }}</td>
             <td>{{ props.item.licenseDate }}</td>
             <td>{{ props.item.insuranceDate }}</td>
             <td>{{ props.item.serviceDate }}</td>
+            
             </template>
         </v-data-table>
         </v-container>
@@ -278,6 +289,8 @@ export default {
                 { text: 'Vehicle number', value: 'vehi_num', sortable:false },
                 { text: 'Vehicle make', value: 'vehi_make', sortable:false },
                 { text: 'Vehicle model', value: 'vehi_model', sortable:false },
+                { text: 'Driver', value: 'vehi_model', sortable:false },
+                { text: 'No. of seats', value: 'vehi_model', sortable:false },
                 { text: 'License date', value: 'license', sortable:false },
                 { text: 'Insurance date', value: 'insurance', sortable:false },
                 { text: 'Service date', value: 'service', sortable:false },
@@ -324,6 +337,11 @@ export default {
         axios.post(uri,self.vehicle)
           .then(response=>{
             console.log(response)
+            if(response.data.response=="success"){   
+                
+                self.vehicles.push(self.vehicle)
+            }
+            
           })
           .catch(error=>{
             console.log(error.response.data.parse)
@@ -362,7 +380,7 @@ export default {
   })
     .then(response => {
       // JSON responses are automatically parsed.
-      this.item = response.data
+      this.items = response.data
      
       
     })
