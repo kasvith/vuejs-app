@@ -17,7 +17,7 @@
                                    :src="imageUrl"
                                     ref="imageUrl"
                                     height="500px"
-                                    @click="onPickFile"
+                                    
                                     style="cursor: pointer;"
                                     contain>
                                     </v-card-media>
@@ -39,17 +39,16 @@
                                         </v-card-title>
                                         
                                         <v-card-text>
-                                            <div>                                                    
-                                                <v-btn fab dark color="secondary"  @click="onPickFile">
+                                            <div>  
+                                                 <div class="large-12 medium-12 small-12 cell">
+                                                 <label><v-btn fab dark color="secondary"  @click="onPickFile">
                                                     <v-icon dark>photo_library</v-icon>
                                                 </v-btn>
-                                                <input
-                                                    type="file"
-                                                    ref="image"
-                                                    name="image"
-                                                    :accept="accept"
-                                                    @change="onFilePicked"
-                                                >
+                                                 <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                                                 </label>
+                                                 <v-btn v-on:click="submitFile()">Submit</v-btn>
+                                                 </div>                                                  
+                                                
                                             </div>
                                        
                                         </v-card-text>
@@ -61,7 +60,7 @@
                     </v-card>
                 </v-flex>
             </v-layout>
-        </v-container>
+        </v-container>        
         <app-map></app-map>
         </v-container>
     </v-app>    
@@ -84,11 +83,11 @@ export default {
     data(){
         return{
             imageUrl:'',
-            
+           
             vehicle:{},
             
             value:false,
-            
+             file: '',
         
         }
        
@@ -103,10 +102,10 @@ export default {
         
         
        axios.get(`http://localhost:5555/getVehicle`,{
-    params: {
-      vehicleNum:self.$session.get('vehicleNum')
-    }
-  })
+        params: {
+        vehicleNum:self.$session.get('vehicleNum')
+        }
+        })
           .then(response=>{
             console.log(response)
             self.vehicle = response.data       
@@ -114,7 +113,21 @@ export default {
           })
           .catch(error=>{
             console.log(error.response.data.parse)
-          });           
+          });   
+
+        axios.get('http://localhost:5555/file',{
+            params:{
+                vehicleNum:self.$session.get('vehicleNum')
+            }
+        })
+        .then(response=>{
+                self.imageUrl=response.data               
+                 console.log(response.data)
+        })  
+        .catch(error=>{
+                console.log(error)
+        })   
+               
     },
 
     components:{
@@ -122,45 +135,57 @@ export default {
         
     },
 
+    methods:{
 
-    watch: {
-            value(v) {
-                this.imageUrl = v
-            }
-        },
-
-        mounted() {
-            this.imageUrl = this.value
-        },
-
-        
-        methods: {
-            
-           onPickFile() {
-                this.$refs.image.click()
+        onPickFile() {
+                this.$refs.file.click()
+                
             },
 
-            onFilePicked(event) {
-                console.log(event)
-                const files = event.target.files || event.dataTransfer.files
+        submitFile(){
+        /*  
+                Initialize the form data
+            */
+            const self=this
+            let formData = new FormData();
 
-                if (files && files[0]) {
-                    let filename = files[0].name
-
-                    if (filename && filename.lastIndexOf('.') <= 0) {
-                        return //return alert('Please add a valid image!')
-                    }
-
-                    const fileReader = new FileReader()
-                    fileReader.addEventListener('load', () => {
-                        this.imageUrl = fileReader.result
-                    })
-                    fileReader.readAsDataURL(files[0])
-
-                    this.$emit('input', files[0])
+            /*
+                Add the form data we need to submit
+            */
+            formData.append('file', this.file);
+            formData.append('num',self.$session.get('vehicleNum'));
+            console.log(formData)
+        /*
+          Make the request to the POST /single-file URL
+        */
+            let uri='http://localhost:5555/upload';
+           
+         axios.post(uri,formData,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            },
-        }
+              })
+          .then(response=>{
+              if(response.data.response!="success"){
+                 //error msg
+
+              }
+           
+          })
+          .catch(error=>{
+            console.log(error.parse)
+          });
+      },
+
+      /*
+        Handles a change on the file upload
+      */
+      handleFileUpload(){
+        this.file = this.$refs.file.files[0];
+      }
+
+    }
+  
 }
 </script>
 

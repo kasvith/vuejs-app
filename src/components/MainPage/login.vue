@@ -96,7 +96,7 @@ methods: {
                this.$session.start
                 this.$session.set('username', this.user.username)               
                 this.$router.push('/home');
-            }
+            }      
           
           })
           .catch(error=>{

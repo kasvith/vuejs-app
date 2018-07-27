@@ -75,13 +75,11 @@
                                 ></v-select>-->
                                 
                                 <v-select            
-                                  :items="items"
-                                  solo
-                                  label="Vehicle Number"
-                                  class=""
-                                  flat
-                >
-                </v-select>
+                                  :items="items"                                 
+                                  label="Vehicle Driver"                                  
+                                  v-model="vehicle.vehicleDriver"                                  
+                                >
+                                </v-select>
                             </v-flex>
                   </v-layout>
                   <v-layout row>
@@ -224,16 +222,16 @@
             class="elevation-1"
         >
             <template slot="items" slot-scope="props">
-            <td>{{ props.item.deviceId }}</td>
-            <td><v-btn @click="details(props.item.vehicleNum)">{{ props.item.vehicleNum }}</v-btn></td>
-            <td>{{ props.item.vehicleMake }}</td>
-            <td>{{ props.item.vehicleModel }}</td>
-            <td>{{ props.item.vehicleDriver }}</td>
-            <td>{{ props.item.noOfSeats }}</td>
-            <td>{{ props.item.licenseDate }}</td>
-            <td>{{ props.item.insuranceDate }}</td>
-            <td>{{ props.item.serviceDate }}</td>
-            
+                <td>{{ props.item.deviceId }}</td>
+                <td><v-btn @click="details(props.item.vehicleNum)">{{ props.item.vehicleNum }}</v-btn></td>
+                <td>{{ props.item.vehicleMake }}</td>
+                <td>{{ props.item.vehicleModel }}</td>
+                <td>{{ props.item.vehicleDriver }}</td>               
+                <td>{{ props.item.noOfSeats }}</td>
+                <td>{{ props.item.licenseDate }}</td>
+                <td>{{ props.item.insuranceDate }}</td>
+                <td>{{ props.item.serviceDate }}</td>
+                <td><v-icon exact :style="{ cursor: 'pointer'}" @click="deleteVehicle(props.item.id);deleteIndex(props.item)">delete</v-icon></td>            
             </template>
         </v-data-table>
         </v-container>
@@ -249,7 +247,7 @@ import axios from "axios";
 export default {
     data(){
         return{
-            
+            vehicles: [],
         
         vehicle:{
 
@@ -300,30 +298,12 @@ export default {
         }
     },
 
-    /*watch: {
-      menu1 (val) {
-        val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
-      },
-      menu2 (val) {
-        val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
-      },
-      menu3 (val) {
-        val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
-      }
-    },*/
+    
     methods: {
-      /*save1 (date1) {
-        this.$refs.menu1.save(date1)
-      },
-      save2 (date1) {
-        this.$refs.menu2.save(date1)
-      },
-      save3 (date1) {
-        this.$refs.menu3.save(date1)
-      },*/
+      
 
       details(n){
-       // console.log(n)
+      
         this.$session.start
         this.$session.set('vehicleNum', n)
          this.$router.push('/details');
@@ -333,6 +313,7 @@ export default {
         const self = this;
         self.vehicle.owner=self.$session.get('username')
         console.log(self.vehicle);
+        
         let uri='http://localhost:5555/saveVehicle';
         axios.post(uri,self.vehicle)
           .then(response=>{
@@ -348,6 +329,39 @@ export default {
           });
         
       },   
+
+      deleteVehicle(n){
+            const self = this;
+          axios.get(`http://localhost:5555/delete-vehicle`,{
+    params: {
+      id:n
+    },
+
+    
+  })
+
+    .then(response => {
+      // JSON responses are automatically parsed.
+     
+      if(response.data.response=="success"){
+          console.log("Vehicle Deleted")  
+          
+             
+      }
+      
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+      },
+
+    deleteIndex(index){
+      const self = this;     
+      const itemIndex = self.vehicles.indexOf(index)
+     
+      confirm('Are you sure you want to delete this Vehicle?') && self.vehicles.splice(itemIndex, 1)
+        
+    },
 },
     created() {
         
@@ -366,18 +380,17 @@ export default {
       // JSON responses are automatically parsed.
       self.vehicles = response.data
     
-      
     })
     .catch(e => {
       self.errors.push(e)
     })
 
     
- axios.get(`http://localhost:5555/show-drivers`,{
+    axios.get(`http://localhost:5555/show-driver-names`,{
     params: {
       username:self.$session.get('username')
     }
-  })
+    })
     .then(response => {
       // JSON responses are automatically parsed.
       this.items = response.data
