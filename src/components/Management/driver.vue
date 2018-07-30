@@ -1,5 +1,5 @@
 <template>   
-    <v-container>
+    <v-container >
 
       <!-- toolbar start -->
 
@@ -7,7 +7,7 @@
       <!-- toolbar end -->
 
 
-        <v-container>
+        <v-container >
         <h1 class="text-xs-center">All Drivers</h1>
         
         <div class="text-xs-right">

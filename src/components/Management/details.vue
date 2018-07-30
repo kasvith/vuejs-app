@@ -17,7 +17,7 @@
                                    :src="imageUrl"
                                     ref="imageUrl"
                                     height="500px"
-                                    
+                                    @click="onPickFile"
                                     style="cursor: pointer;"
                                     contain>
                                     </v-card-media>
@@ -33,21 +33,23 @@
                                             <p style="font-size:18px">Number of seats: <v-chip outline color="primary">{{vehicle.noOfSeats}}</v-chip></p>
                                             <p style="font-size:18px">License Date: <v-chip outline color="primary">{{vehicle.licenseDate}}</v-chip></p>
                                             <p style="font-size:18px">Insurance Date: <v-chip outline color="primary">{{vehicle.insuranceDate}}</v-chip></p>
-                                            <p style="font-size:18px">Service Date: <v-chip outline color="primary">{{vehicle.serviceDate}}</v-chip></p>
-                                           
+                                            <p style="font-size:18px">Service Date: <v-chip outline color="primary">{{vehicle.serviceDate}}</v-chip></p>                                           
                                         </div>
                                         </v-card-title>
                                         
                                         <v-card-text>
-                                            <div>  
+                                            <div row>  
                                                  <div class="large-12 medium-12 small-12 cell">
-                                                 <label><v-btn fab dark color="secondary"  @click="onPickFile">
+                                                 <label><v-btn fab dark color="secondary"  @click="onPickFile" >
                                                     <v-icon dark>photo_library</v-icon>
                                                 </v-btn>
                                                  <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
                                                  </label>
-                                                 <v-btn v-on:click="submitFile()">Submit</v-btn>
-                                                 </div>                                                  
+                                                 <v-btn class="primary" v-on:click="submitFile()">Submit</v-btn>
+                                                 <v-btn class="primary" v-on:click="deleteFile(vehicle.vehicleNum)">Delete</v-btn>
+                                                 </div>
+                                                 
+                                                
                                                 
                                             </div>
                                        
@@ -60,7 +62,7 @@
                     </v-card>
                 </v-flex>
             </v-layout>
-        </v-container>        
+        </v-container>             
         <app-map></app-map>
         </v-container>
     </v-app>    
@@ -82,7 +84,7 @@ export default {
         },
     data(){
         return{
-            imageUrl:'',
+            imageUrl:'https://www.wexfordbus.com/web/app/uploads/2016/09/our-buses.jpg',
            
             vehicle:{},
             
@@ -98,9 +100,7 @@ export default {
          if(!this.$session.has('username')){
             this.$router.push('/login');
         }
-       
-        
-        
+      
        axios.get(`http://localhost:5555/getVehicle`,{
         params: {
         vehicleNum:self.$session.get('vehicleNum')
@@ -122,7 +122,7 @@ export default {
         })
         .then(response=>{
                 self.imageUrl=response.data               
-                 console.log(response.data)
+                console.log("iamgeURL is"+ self.imageUrl)
         })  
         .catch(error=>{
                 console.log(error)
@@ -140,7 +140,7 @@ export default {
         onPickFile() {
                 this.$refs.file.click()
                 
-            },
+            },        
 
         submitFile(){
         /*  
@@ -166,14 +166,19 @@ export default {
                 }
               })
           .then(response=>{
-              if(response.data.response!="success"){
-                 //error msg
+              console.log(response)
+              if(response.data.response=="success"){
+                 //error msg               
+                  console.log("Successfully uploaded!!")
+              }
 
+              if(response.data.response=="error"){
+                  confirm("Cant upload the image")
               }
            
           })
           .catch(error=>{
-            console.log(error.parse)
+            console.log(error)
           });
       },
 
@@ -182,6 +187,26 @@ export default {
       */
       handleFileUpload(){
         this.file = this.$refs.file.files[0];
+      },
+
+      deleteFile(n){
+
+          axios.get(`http://localhost:5555/deleteImage`,{
+        params: {
+            num:n
+        }
+        })
+          .then(response=>{
+
+           if(response.data.response=="success"){
+               confirm("Image is deleted.")
+           }       
+              
+          })
+          .catch(error=>{
+            confirm(error)
+          });   
+
       }
 
     }

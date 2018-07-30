@@ -1,5 +1,5 @@
 <template>
-        <v-container>
+        <v-container fluid>
 
 
 <!-- toolbar start -->
@@ -8,7 +8,7 @@
   <!-- toolbar end -->
 
 
-        <v-container>
+        <v-container fluid> 
 
         <h1 class="text-xs-center mt-5 pt-5">All Vehicles</h1>
         
