@@ -14,10 +14,9 @@
                             <v-layout row>
                                 <v-flex xs12 sm8>
                                     <v-card-media
-                                   :src="imageUrl"
+                                   :src="image"
                                     ref="imageUrl"
-                                    height="500px"
-                                    @click="onPickFile"
+                                    height="500px"                                    
                                     style="cursor: pointer;"
                                     contain>
                                     </v-card-media>
@@ -47,10 +46,8 @@
                                                  </label>
                                                  <v-btn class="primary" v-on:click="submitFile()">Submit</v-btn>
                                                  <v-btn class="primary" v-on:click="deleteFile(vehicle.vehicleNum)">Delete</v-btn>
-                                                 </div>
-                                                 
-                                                
-                                                
+                                                 </div>                                              
+                                                                                                
                                             </div>
                                        
                                         </v-card-text>
@@ -84,8 +81,8 @@ export default {
         },
     data(){
         return{
-            imageUrl:'https://www.wexfordbus.com/web/app/uploads/2016/09/our-buses.jpg',
-           
+            
+            image:'',
             vehicle:{},
             
             value:false,
@@ -95,12 +92,15 @@ export default {
        
     },
 
+    
+
     created(){
         const self = this;
          if(!this.$session.has('username')){
             this.$router.push('/login');
         }
-      
+
+        
        axios.get(`http://localhost:5555/getVehicle`,{
         params: {
         vehicleNum:self.$session.get('vehicleNum')
@@ -114,19 +114,9 @@ export default {
           .catch(error=>{
             console.log(error.response.data.parse)
           });   
+        
+         self.image="http://localhost:5555/file?vehicleNum="+ this.$session.get('vehicleNum')
 
-        axios.get('http://localhost:5555/file',{
-            params:{
-                vehicleNum:self.$session.get('vehicleNum')
-            }
-        })
-        .then(response=>{
-                self.imageUrl=response.data               
-                console.log("iamgeURL is"+ self.imageUrl)
-        })  
-        .catch(error=>{
-                console.log(error)
-        })   
                
     },
 
@@ -170,6 +160,8 @@ export default {
               if(response.data.response=="success"){
                  //error msg               
                   console.log("Successfully uploaded!!")
+                
+                  confirm("upload successful")
               }
 
               if(response.data.response=="error"){

@@ -1,14 +1,12 @@
 <template>
-<body style="background-color:#F5F5F5">
+ 
  <v-container fluid>
   <!-- toolbar start -->
-
   <app-toolbar></app-toolbar>
 
   <!-- toolbar end -->
 
 <!--extra small devices-->
-<v-container fluid>
     <v-container fluid grid-list-lg>
     <v-layout class="hidden-sm-and-up">
       <v-flex xs12>
@@ -35,19 +33,17 @@
     </v-layout>
 <!--extra small devices-->
 
-<v-container fluid>
-<!--md devices-->
-
-    <v-layout row wrap class="hidden-xs-only ml-4">
-        <v-flex xs12 sm6 md3>
-        <v-card flat tile class="c font--text" height="150px" color="">
+    <v-layout class="hidden-xs-only mt-3">
+        <v-flex d-flex xs12 sm3 md3>
+        <v-card class="c" >
           <v-container fluid>
             <v-layout row wrap>
               <v-flex xs12>
-                <v-card-title class="title primary--text" style="height:50px">Vehicle Number</v-card-title>
+                <v-card-title class="title">Vehicle Number</v-card-title>
               </v-flex>
             </v-layout>
-            <v-layout row wrap>             
+            <v-layout row wrap>
+              
               <v-flex xs12>
                 <v-card-text class="title">
                  <v-select            
@@ -65,91 +61,98 @@
         </v-card>
       </v-flex>
       
-      <v-flex d-flex xs12 sm6 md3>
-        <v-card flat tile="" class="font--text" height="150px" color="">
+      <v-flex d-flex xs12 sm3 md3>
+        <v-card class="">
           <v-container fluid>
             <v-layout row wrap>
               <v-flex xs12>
-          <v-card-title class="title primary--text">speed</v-card-title>
+          <v-card-title class="title ">speed</v-card-title>
               </v-flex>
             </v-layout>
             <v-layout row wrap>
               <v-flex xs6>
-                <v-card-media class="" contain>
+                <v-card-media class="hidden-xs-only">
                   <v-progress-circular
                     :rotate="360"
-                    :size="60"
+                    :size="75"
                     :width="15"
                     :value="value"
-                    color="speed1"                 
+                    color="speed1"
                   >
                     {{ value }}
                   </v-progress-circular>
                   </v-card-media>
               </v-flex>
-              <v-flex xs6>               
+              <v-flex xs6>
+                <v-card-text class="title">
                   <v-card flat class="rounded-card speed2">
-                    <v-card-text class="text-xs-center speed1--text title">
+                    <v-card-text class="text-xs-center speed1--text">
                       {{speed}}
                     </v-card-text>
-                  </v-card>              
+                  </v-card>
+                </v-card-text>
               </v-flex>
             </v-layout>  
           </v-container>
         </v-card>
       </v-flex>
+
       
-      
-         <v-flex d-flex xs12 sm6 md3>
-            <v-card flat class="font--text" height="150px" color="">
+         <v-flex d-flex xs12 sm3 md3>
+            <v-card>
               <v-container fluid>
                 <v-layout row wrap>
                   <v-flex xs12>
-                    <v-card-title class="title primary--text" style="height:50px">Number of passengers</v-card-title>
+                    <v-card-title class="title">Number of passengers</v-card-title>
                   </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                   <v-flex xs6>
-                    <v-card-media contain>                      
-                      <v-icon class="num_seats1--text" size="60">airline_seat_recline_normal</v-icon>                                    
+                    <v-card-media >
+                      
+                      <v-icon class="num_seats1--text" size="80">airline_seat_recline_normal</v-icon> 
+                                    
                     </v-card-media>
                   </v-flex>
-                  <v-flex xs6>                    
+                  <v-flex xs6>
+                    <v-card-text class="">
                       <v-card flat class="rounded-card num_seats2">
-                        <v-card-text class="text-xs-center num_seats1--text title" >
+                        <v-card-text class="text-xs-center num_seats1--text">
                            <app-odo></app-odo>
                         </v-card-text>
-                      </v-card>                  
+                      </v-card>
+                    </v-card-text>
                   </v-flex>
                 </v-layout>  
               </v-container>
              </v-card>
             </v-flex>
 
-     <v-flex d-flex xs12 sm6 md3>
-            <v-card flat class="font--text" height="150px" color="">
+    <v-flex d-flex xs12 sm3 md3>
+            <v-card>
               <v-container fluid>
                 <v-layout row wrap>
                   <v-flex xs12>
-                    <v-card-title class="title primary--text">Trip Number</v-card-title>
+                    <v-card-title class="title">Number of passengers</v-card-title>
                   </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                   <v-flex xs6>
                     <v-card-media
                     src="/static/vehicle.png"
-                    height="60px"
+                    height="75px"
                     contain
-                    class=""
-                    >                 
+                    class="hidden-xs-only">                 
                     </v-card-media>
                   </v-flex>
                   <v-flex xs6>
-                      <v-card flat class="rounded-card trips2">
-                        <v-card-text class="text-xs-center title trips1--text">
-                          {{trip_num}}
+                    <v-card-text class="title">
+                      <v-card class="rounded-card">
+                        <v-card-text class="text-xs-center">
+                          {{num_seats}}
                         </v-card-text>
                       </v-card>
+                    </v-card-text>
                   </v-flex>
                 </v-layout>  
               </v-container>
@@ -157,27 +160,27 @@
             </v-flex>
     </v-layout>
 
-    <v-layout row wrap class="ml-5">
-      <v-flex d-flex xs12 sm12 md6>
+    <v-layout row wrap >
+      <v-flex d-flex xs12 sm6 md6>
         <v-card>
           <app-map></app-map>
         </v-card>
       </v-flex>
      
-      <v-flex d-flex xs12 sm12 md6>         
-        <v-card class="text-xs-center">
-          <app-chartProfit class="mt-5"></app-chartProfit>
+      <v-flex d-flex xs12 sm6 md6>         
+        <v-card>
+          <app-chartIncome></app-chartIncome>
         </v-card>                      
       </v-flex>     
      </v-layout>
 
-    <v-layout wrap class="ml-5">
-      <v-flex d-flex xs12 sm12 md6>
+    <v-layout wrap>
+      <v-flex d-flex xs12 sm6 md6>
         <v-card >
-            <app-chartIncome></app-chartIncome>
+            <app-chartProfit></app-chartProfit>
         </v-card>
       </v-flex>
-      <v-flex d-flex xs12 sm12 md6> 
+      <v-flex d-flex xs12 sm6 md6> 
         <v-card>
               <app-chartFuel></app-chartFuel>   
         </v-card>               
@@ -185,10 +188,8 @@
       </v-flex>     
     </v-layout>
   </v-container>
-</v-container>
  </v-container>
- </v-container>
-</body>
+
 </template>
 
 <script>
@@ -198,53 +199,18 @@ import Fuel_chart from '@/components/Management/charts/fuel_chart'
 import Toolbar1 from '@/components/toolbar1'
 import Map from '@/components/map'
 import Odometer from '@/components/Management/odometer'
-import axios from "axios" 
 
  export default {
     data (){ 
       return{
         interval: {},
         value: 0,
-        speed: '20',
-        trip_num: '2',
+        speed: '20km/h',
+        num_seats: '8',
     
-        vehi_numbers:[],
-
-      } 
-
-      },     
-    
-   /*  created(){
-      const self = this;
-       if(!self.$session.has('username')){
-                this.$router.push('/login');
-         }   
-        
-    }, */
-
-    created(){
-      const self=this;
-      
-       if(!self.$session.has('username')){
-                this.$router.push('/login');
-         }   
-
-      axios.get(`http://localhost:5555/show-vehicle-numbers`,{
-      params: {
-        username:self.$session.get('username')
+    vehi_numbers:['BCC-0001','ABC-0000','PA-1234'],
       }
-      })
-      .then(response => {
-        
-        self.vehi_numbers = response.data
-              
-      })
-      .catch(e => {
-        self.errors.push(e)
-      })
     },
-    
-
     components:{
       'app-toolbar':Toolbar1,
       'app-chartIncome': Income_chart,
@@ -264,14 +230,14 @@ import axios from "axios"
         }
         this.value += 10
       }, 1000)
-
     }
-
-    
   }
 </script>
 
 <style>
+.tool_bar{
+    height: 75px;
+}
 
 .v-progress-circular{
     margin: 1rem;}

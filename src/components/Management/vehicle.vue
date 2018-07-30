@@ -8,7 +8,7 @@
   <!-- toolbar end -->
 
 
-        <v-container fluid> 
+        <v-container fluid class="ml-4"> 
 
         <h1 class="text-xs-center mt-5 pt-5">All Vehicles</h1>
         
@@ -223,7 +223,7 @@
         >
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.deviceId }}</td>
-                <td><v-btn @click="details(props.item.vehicleNum)">{{ props.item.vehicleNum }}</v-btn></td>
+                <td><v-btn flat @click="details(props.item.vehicleNum)">{{ props.item.vehicleNum }}</v-btn></td>
                 <td>{{ props.item.vehicleMake }}</td>
                 <td>{{ props.item.vehicleModel }}</td>
                 <td>{{ props.item.vehicleDriver }}</td>               
@@ -306,7 +306,7 @@ export default {
       
         this.$session.start
         this.$session.set('vehicleNum', n)
-         this.$router.push('/details');
+        this.$router.push('/details');
       },
 
     createVehicle(){

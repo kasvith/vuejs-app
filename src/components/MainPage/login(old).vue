@@ -1,18 +1,31 @@
 <template>
-<body style="background-image: url('/static/background.jpg');background-size: cover;height: 100%; overflow: hidden;box-shadow:inset 0 0 0 2000px rgba(0,0,20,0.8);">
-<v-container fluid>
+<v-app>
 
 <!-- toolbar starts -->
-<v-container>
-<app-toolbar2></app-toolbar2>
-</v-container>
+<div class="tool_bar">
+    <v-toolbar id="toolbar_main" flat fixed class="transparent">
+        <v-toolbar-title><router-link to="/" tag="span" style="cursor:pointer">TrackMe</router-link></v-toolbar-title>
+        <v-toolbar-items>
+            <v-btn flat to='/'>Home</v-btn>
+            <v-btn flat to=''>About</v-btn>
+            <v-btn flat to=''>Services</v-btn>
+            <v-btn flat to=''>Highway bus timetable</v-btn>
+            <v-btn flat to=''>Contacts</v-btn>
+        </v-toolbar-items>
+        <v-spacer></v-spacer>       
+            <v-toolbar-items class="hidden-xs-only hidden">
+                <v-btn flat to='/login'><v-icon left>account_circle</v-icon>Login</v-btn>
+                <v-btn flat to='/signup'><v-icon left>account_circle</v-icon>Singup</v-btn>
+            </v-toolbar-items> 
+        </v-toolbar> 
+</div>
 <!-- toolbar ends -->
 
 <v-container>
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
-      <v-card color="transparent white--text" flat>
-            <v-card-title >
+      <v-card>
+            <v-card-title primary-title>
                 <h3 class="headline mb-0">Login</h3>
             </v-card-title>
                 <v-card-text>
@@ -21,13 +34,11 @@
                         <v-layout row>
                             <v-flex xs12>
                                 <v-text-field
-                                    box
                                     name="uname"
                                     label="Mail"
                                     id="uname"
                                     v-model="user.username"
                                     type="email"
-                                    :rules="emailRules"
                                     required>
                                 </v-text-field>
                             </v-flex>
@@ -35,7 +46,6 @@
                         <v-layout row>
                             <v-flex xs12>
                                 <v-text-field
-                                    box
                                     name="password"
                                     label="Password"
                                     id="password"
@@ -58,33 +68,20 @@
     </v-flex>
   </v-layout>
 </v-container>
-</v-container>
-</body>
+</v-app>
 </template>
 
 <script>
 import axios from "axios";
-import Toolbar2 from '@/components/toolbar2';
 
 export default {
 
     data () {
       return {
           user:{
-          },
-
-          valid:false,
-            email:'',
-            emailRules:[
-                v => !!v || 'Email is required',
-                v => /.+@.+/.test(v) || 'E-mail must be valid'
-            ]
+          }
       }
     },
-
-    components:{
-    'app-toolbar2': Toolbar2
-  },
     
 methods: {
     
@@ -115,8 +112,12 @@ methods: {
 </script>
 
 <style>
+body{
+    background-image: url()
+}
 
-
-
+.tool_bar{
+    height: 75px;
+}
 
 </style>

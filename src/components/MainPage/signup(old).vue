@@ -1,20 +1,33 @@
 <template>
-<body>
-<v-container fluid>
+<v-app>
 
 <!-- toolbar starts -->
-<v-container>
-<app-toolbar2></app-toolbar2>
-</v-container>
- 
+<div class="tool_bar">
+<v-toolbar id="toolbar_main" flat fixed class="transparent">
+        <v-toolbar-title><router-link to="/" tag="span" style="cursor:pointer">TrackMe</router-link></v-toolbar-title>
+        <v-toolbar-items>
+            <v-btn flat to='/'>Home</v-btn>
+            <v-btn flat to=''>About</v-btn>
+            <v-btn flat to=''>Services</v-btn>
+            <v-btn flat to=''>Highway bus timetable</v-btn>
+            <v-btn flat to=''>Contacts</v-btn>
+        </v-toolbar-items>
+        <v-spacer></v-spacer>       
+            <v-toolbar-items class="hidden-xs-only hidden">
+                <v-btn flat to='/login'><v-icon left>account_circle</v-icon>Login</v-btn>
+                <v-btn flat to='/signup'><v-icon left>account_circle</v-icon>Singup</v-btn>
+            </v-toolbar-items> 
+</v-toolbar>
+</div>
  
 <!-- toolbar ends -->
 
-<v-container>
+<v-container fill-height>
   <v-layout>
     <v-flex xs12 sm6 offset-sm3>
-        <v-card color="transparent white--text" flat>
-            <v-card-title class="text-xs-center">
+        <v-jumbotron color="" height="100%">
+        <v-card>
+            <v-card-title primary-title>
                 <h3 class="headline mb-0">Signup</h3>
             </v-card-title>
                 <v-card-text>
@@ -23,13 +36,11 @@
                         <v-layout row>
                             <v-flex xs12>
                                 <v-text-field
-                                    box
                                     name="name"
                                     label="Name"
                                     id="name"
                                     v-model="owner.userName"
                                     type=""
-                                    :rules="nameRules"
                                     required>
                                 </v-text-field>
                             </v-flex>
@@ -37,13 +48,11 @@
                         <v-layout row>
                             <v-flex xs12>
                                 <v-text-field
-                                    box
                                     name="email"
                                     label="Email address"
                                     id="email"
                                     v-model="owner.email"
                                     type="email"
-                                    :rules="emailRules"
                                     required>
                                 </v-text-field>
                             </v-flex>
@@ -51,12 +60,11 @@
                         <v-layout row>
                             <v-flex xs12>
                                 <v-text-field
-                                    box
                                     name="telephone"
                                     label="Telephone Number"
                                     id="telephone"
                                     v-model="owner.tel"                                  
-                                    :rules="telephoneRules"
+                                    
                                     >
                                 </v-text-field>
                             </v-flex>
@@ -64,13 +72,11 @@
                         <v-layout row>
                             <v-flex xs12>
                                 <v-text-field
-                                    box
                                     name="password"
                                     label="Password"
                                     id="password"
                                     v-model="owner.password"
                                     type="password"
-                                    :rules="passwordRules"
                                     required>
                                 </v-text-field>
                             </v-flex>
@@ -78,11 +84,10 @@
                         <v-layout row>
                             <v-flex xs12>
                                 <v-text-field
-                                    box
                                     name="confirmPassword"
                                     label="Confirm Password"
                                     id="confirmPassword"
-                                    :rules="confirmRules"
+                                    
                                     type="password"
                                     required>
                                 </v-text-field>
@@ -98,16 +103,15 @@
                     <v-btn color="blue darken-1" flat @click.native="createOwner(),dialog = false">Signup</v-btn>
                 </v-card-actions>
                 </v-card>
+            </v-jumbotron>
     </v-flex>
   </v-layout>
 </v-container>
-</v-container>
-</body>
+</v-app>
 </template>
 
 <script>
 import axios from "axios";
-import Toolbar2 from '@/components/toolbar2'
 export default {
     
     data () {
@@ -115,38 +119,10 @@ export default {
 
         owner:{
 
-        },
-
-        valid:false,
-            name: '',
-            nameRules: [
-                v => !!v || 'Name is required',
-            ],
-            email: '',
-            emailRules: [
-                v => !!v || 'E-mail is required',
-                v => /.+@.+/.test(v) || 'E-mail must be valid'
-            ],
-            telephone:'',
-            telephoneRules: [
-                v => v.length == 10 || 'Phone number must be 10 characters'
-            ],
-            password:'',
-            passwordRules: [
-                v => v.length >= 8 || 'Password must be at least 8 characters'
-            ],
-            confirmPassword:'',
-            confirmRules:[
-                v => v == this.password || '',
-                
-            ],       
+        },        
       }
      
 },
-
- components:{
-            'app-toolbar2': Toolbar2
-         }, 
 
 methods: {
      createOwner(){
@@ -177,13 +153,8 @@ methods: {
 
 <style>
     
-    body{
-    background-image: url("/static/background.jpg");
-    background-size: cover;
-    height: 100%;
-    overflow: hidden;
-    box-shadow:inset 0 0 0 2000px rgba(0,0,20,0.8);
+.tool_bar{
+    height: 75px;
 }
-
 
 </style>

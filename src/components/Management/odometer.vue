@@ -16,7 +16,7 @@
     },
     data() {
       return {
-        num: 55
+        num: 0
       };
     },
     mounted() {
@@ -30,7 +30,7 @@
 
 <style scoped>
   .iOdometer {
-    font-size: 2em;
+
     margin: 0;
   }
 </style>

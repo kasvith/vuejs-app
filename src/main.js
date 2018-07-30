@@ -34,6 +34,10 @@ Vue.use(Vuetify, { theme: {
     speed2:"#EBDEF0",
     num_seats1:"#239B56",
     num_seats2:"#D4EFDF",
+    blue1:"0D47A1",
+    trips1:"E74C3C",
+    trips2:"FADBD8"
+
   
 }})
 

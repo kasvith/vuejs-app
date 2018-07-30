@@ -1,40 +1,4 @@
 <template>
-<body style="background-color:#F5F5F5">
- <v-container fluid>
-  <!-- toolbar start -->
-
-  <app-toolbar></app-toolbar>
-
-  <!-- toolbar end -->
-
-<!--extra small devices-->
-<v-container fluid>
-    <v-container fluid grid-list-lg>
-    <v-layout class="hidden-sm-and-up">
-      <v-flex xs12>
-        <v-card>
-          <v-card-title>
-            <v-select            
-                  :items="vehi_numbers"
-                  solo
-                  label="Vehicle Number"
-                  class=""
-                  flat
-                >
-                </v-select>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text class="title">
-            Speed:{{speed}}
-            </v-card-text>          
-            <v-card-text class="title">
-              No. of passengers: {{num_seats}}
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-<!--extra small devices-->
-
 <v-container fluid>
 <!--md devices-->
 
@@ -51,13 +15,11 @@
               <v-flex xs12>
                 <v-card-text class="title">
                  <v-select            
-                  :items="vehi_numbers"
-                  solo
-                  label="Vehicle Number"
-                  class="c"
-                  flat
-                >
-                </v-select>
+                    :items="vehi_numbers"                                 
+                    label="Vehicle Number"                                  
+                                                  
+                    >
+                    </v-select>
                 </v-card-text>
               </v-flex>
             </v-layout>  
@@ -157,50 +119,13 @@
             </v-flex>
     </v-layout>
 
-    <v-layout row wrap class="ml-5">
-      <v-flex d-flex xs12 sm12 md6>
-        <v-card>
-          <app-map></app-map>
-        </v-card>
-      </v-flex>
-     
-      <v-flex d-flex xs12 sm12 md6>         
-        <v-card class="text-xs-center">
-          <app-chartProfit class="mt-5"></app-chartProfit>
-        </v-card>                      
-      </v-flex>     
-     </v-layout>
 
-    <v-layout wrap class="ml-5">
-      <v-flex d-flex xs12 sm12 md6>
-        <v-card >
-            <app-chartIncome></app-chartIncome>
-        </v-card>
-      </v-flex>
-      <v-flex d-flex xs12 sm12 md6> 
-        <v-card>
-              <app-chartFuel></app-chartFuel>   
-        </v-card>               
-       
-      </v-flex>     
-    </v-layout>
-  </v-container>
 </v-container>
- </v-container>
- </v-container>
-</body>
 </template>
 
 <script>
-import Income_chart from '@/components/Management/charts/income_chart'
-import Profit_chart from '@/components/Management/charts/profit_chart'
-import Fuel_chart from '@/components/Management/charts/fuel_chart'
-import Toolbar1 from '@/components/toolbar1'
-import Map from '@/components/map'
 import Odometer from '@/components/Management/odometer'
-import axios from "axios" 
-
- export default {
+export default {
     data (){ 
       return{
         interval: {},
@@ -208,52 +133,11 @@ import axios from "axios"
         speed: '20',
         trip_num: '2',
     
-        vehi_numbers:[],
+    vehi_numbers:{},
 
-      } 
-
-      },     
-    
-   /*  created(){
-      const self = this;
-       if(!self.$session.has('username')){
-                this.$router.push('/login');
-         }   
-        
-    }, */
-
-    created(){
-      const self=this;
-      
-       if(!self.$session.has('username')){
-                this.$router.push('/login');
-         }   
-
-      axios.get(`http://localhost:5555/show-vehicle-numbers`,{
-      params: {
-        username:self.$session.get('username')
-      }
-      })
-      .then(response => {
-        
-        self.vehi_numbers = response.data
-              
-      })
-      .catch(e => {
-        self.errors.push(e)
-      })
+      }     
     },
     
-
-    components:{
-      'app-toolbar':Toolbar1,
-      'app-chartIncome': Income_chart,
-      'app-map' :Map,
-      'app-chartProfit': Profit_chart,
-      'app-chartFuel': Fuel_chart,
-      'app-odo': Odometer,
-    },
-
     beforeDestroy () {
       clearInterval(this.interval)
     },
@@ -265,6 +149,26 @@ import axios from "axios"
         this.value += 10
       }, 1000)
 
+    },
+    components:{
+      'app-odo': Odometer,
+    },
+
+    created(){
+      const self=this;
+      axios.get(`http://localhost:5555/show-vehicle-numbers`,{
+      params: {
+        username:self.$session.get('username')
+      }
+      })
+      .then(response => {
+        self.vehi_numbers =Object.entries(response.data)
+        //self.vehi_numbers = response.data
+              
+      })
+      .catch(e => {
+        self.errors.push(e)
+      })
     }
 
     
@@ -273,11 +177,16 @@ import axios from "axios"
 
 <style>
 
+
 .v-progress-circular{
     margin: 1rem;}
 
 .rounded-card{
     border-radius:50px;
+}
+.line {
+    display: inline-block;
+    overflow-wrap: initial
 }
 </style>
 

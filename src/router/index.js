@@ -15,6 +15,8 @@ import Profit_chart from '@/components/Management/charts/profit_chart'
 import Fuel_chart from '@/components/Management/charts/fuel_chart'
 import Map from '@/components/map'
 import Odometer from '@/components/Management/odometer'
+import Settings from '@/components/Management/settings'
+import TimeTable from '@/components/timetable'
 
 
 
@@ -91,6 +93,16 @@ export default new Router({
       path:'/odo',
       name: 'Odometer',
       component: Odometer
+    },
+    {
+      path:'/settings',
+      name: 'Settings',
+      component: Settings
+    },
+    {
+      path:'/timetable',
+      name: 'TimeTable',
+      component: TimeTable
     },
   ],
   mode:'history'
