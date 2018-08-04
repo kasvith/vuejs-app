@@ -90,7 +90,7 @@
               <v-flex xs6>               
                   <v-card flat class="rounded-card speed2">
                     <v-card-text class="text-xs-center speed1--text title">
-                      {{speed}}
+                      {{value}}
                     </v-card-text>
                   </v-card>              
               </v-flex>
@@ -262,7 +262,7 @@ import axios from "axios"
         if (this.value === 100) {
           return (this.value = 0)
         }
-        this.value += 10
+        this.value += 5
       }, 1000)
 
     }

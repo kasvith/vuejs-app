@@ -125,44 +125,7 @@ export default {
           { text: 'National ID', value: 'tel',sortable:false },
           { text: 'Delete', value: 'delete',sortable:false },
         ],
-      /* posts: [
-          {
-            id:1,
-            value: false,
-            name: 'Saman',
-            nationalId: '781234567v',
-            tel: '0771234567',
-          },],
-          {
-            id:5,
-            value: false,
-            name: 'Kamal',
-            nic: '701232367v',
-            telephone: '0771233556',
-          },
-          {
-            id:8,
-            value: false,
-            name: 'Nimal',
-            nic: '681234598v',
-            telephone: '0711235767',
-          },
-          {
-            id:12,
-            value: false,
-            name: 'Amal',
-            nic: '641234567v',
-            telephone: '0721234567',
-          },
-          {
-            id:20,
-            value: false,
-            name: 'vimal',
-            nic: '801234567v',
-            telephone: '0761234567',
-          },
-          
-        ],*/
+      
       createDriver(){
          const self = this;
         self.driver.owner=self.$session.get('username')

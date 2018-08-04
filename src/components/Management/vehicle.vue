@@ -248,6 +248,7 @@ export default {
     data(){
         return{
             vehicles: [],
+            items:[],
         
         vehicle:{
 

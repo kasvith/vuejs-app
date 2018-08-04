@@ -7,7 +7,7 @@
             <v-btn flat to='/'>Home</v-btn>
             <v-btn flat to=''>About</v-btn>
             <v-btn flat to=''>Services</v-btn>
-            <v-btn flat to=''>Highway bus timetable</v-btn>
+            <v-btn flat to='/timetable'>Highway bus timetable</v-btn>
             <v-btn flat to=''>Contacts</v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>       

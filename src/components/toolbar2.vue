@@ -11,7 +11,7 @@
         <v-spacer></v-spacer>       
             <v-toolbar-items class="hidden-xs-only">
                 <v-btn flat to='/login'><v-icon left>account_circle</v-icon>Login</v-btn>
-                <v-btn flat to='/signup'><v-icon left>account_circle</v-icon>Singup</v-btn>
+                <v-btn flat to='/signup'><v-icon left>account_circle</v-icon>Signup</v-btn>
             </v-toolbar-items> 
         </v-toolbar> 
 </template>

@@ -36,6 +36,13 @@
                     >
                         OK
                     </v-btn>
+                    <v-btn             
+                    flat="flat"
+                    class="secondary"
+                    to="/home"
+                    >
+                        Cancel
+                    </v-btn>
                     </v-flex>
                 </v-layout>       
             </v-card-actions>
@@ -232,7 +239,7 @@ export default {
           .then(res=>{
             console.log("response is "+res.data.response)
             if(res.data.response=="success"){        
-                self.dialog=false;            
+                self.dialog=false;     
                
 
             }else{

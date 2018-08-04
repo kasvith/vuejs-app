@@ -1,15 +1,16 @@
 export const fuelChartData = {
-    type: 'pie',
+    type: 'bar',
     data: {
       labels: ['1','2','3','4','5','6','7'],
       datasets: [
-        { // one line graph
-          label: 'fuel',
-          data: [20000, 21000, 15000, 30000, 0, 29000, 31000,],
+        { 
+          label: 'Fuel Chart',
+          
+          data: [5000, 6000, 3000, 6000, 5500, 7000, 7500,],
           backgroundColor: [
             'rgb(27, 79, 114)',
             'rgb(33, 97, 140)',
-            'rgb(40, 116, 166 )', // Blue
+            'rgb(40, 116, 166 )', 
             'rgb(46, 134, 193)',
             'rgb(52, 152, 219)',
             'rgb(93, 173, 226)',
@@ -41,7 +42,12 @@ export const fuelChartData = {
         yAxes: [{
                     gridLines: {
                         display:false
-                    }   
+                    },
+                    ticks: {
+                      beginAtZero: true,
+                      stepValue: 5,
+                      max: 10000
+                  }   
                 }]
         }
     }

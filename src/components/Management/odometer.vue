@@ -23,7 +23,11 @@
       const that = this;
       setInterval(function() {
         that.num+=1;
-      }, 3000);
+        if(that.num==58){
+          that.num=0;
+        }
+        
+      }, 7000);
     }
   };
 </script>

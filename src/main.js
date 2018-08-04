@@ -4,6 +4,18 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueSession from 'vue-session'
+import * as VueGoogleMaps from 'vue2-google-maps'
+ 
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBPiAz0_KqSyn2EW8cFCypuqO95eL97vGc',
+    libraries: 'places',
+    
+  }
+ 
+  
+})
+
 Vue.use(VueSession)
 
 var options = {

@@ -1,5 +1,5 @@
 <template>
-<body>
+<body style="background-image: url('/static/background.jpg');background-size: cover;height: 100%; overflow: hidden;box-shadow:inset 0 0 0 2000px rgba(0,0,20,0.8);">
 <v-container fluid>
 
 <!-- toolbar starts -->
@@ -79,10 +79,10 @@
                             <v-flex xs12>
                                 <v-text-field
                                     box
-                                    name="confirmPassword"
+                                    name="password"
                                     label="Confirm Password"
-                                    id="confirmPassword"
-                                    :rules="confirmRules"
+                                    id="password"
+                                    
                                     type="password"
                                     required>
                                 </v-text-field>
@@ -133,11 +133,12 @@ export default {
             ],
             password:'',
             passwordRules: [
+                v => !!v || 'Password is required',
                 v => v.length >= 8 || 'Password must be at least 8 characters'
             ],
             confirmPassword:'',
-            confirmRules:[
-                v => v == this.password || '',
+            confirmRules: [
+                v => v == this.password || ''
                 
             ],       
       }
@@ -177,13 +178,7 @@ methods: {
 
 <style>
     
-    body{
-    background-image: url("/static/background.jpg");
-    background-size: cover;
-    height: 100%;
-    overflow: hidden;
-    box-shadow:inset 0 0 0 2000px rgba(0,0,20,0.8);
-}
+   
 
 
 </style>

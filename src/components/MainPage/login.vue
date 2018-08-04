@@ -96,7 +96,7 @@ methods: {
           .then(res=>{
             
             if(res.data.response=="success"){   
-               this.$session.start
+                this.$session.start
                 this.$session.set('username', this.user.username)               
                 this.$router.push('/home');
             }else{

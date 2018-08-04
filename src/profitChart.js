@@ -5,7 +5,8 @@ export const profitChartData = {
       datasets: [
         { // one line graph
           label: 'Daily profit',
-          data: [20000, 21000, 15000, 30000, 0, 29000, 31000, 25000],
+          
+          data: [15000, 19000, 15000, 16000, 16500, 22000, 23500],
           fill:false ,
           backgroundColor: [
             'rgb(48, 48, 241)', // Blue           
@@ -36,7 +37,12 @@ export const profitChartData = {
         yAxes: [{
                     gridLines: {
                         display:false
-                    }   
+                    },
+                    ticks: {
+                      beginAtZero: true,
+                      stepValue: 5,
+                      max: 24000
+                  }   
                 }]
         }
     }

@@ -16,8 +16,7 @@
                                     <v-card-media
                                    :src="image"
                                     ref="imageUrl"
-                                    height="500px"                                    
-                                    style="cursor: pointer;"
+                                    height="500px"                                                                         
                                     contain>
                                     </v-card-media>
                                 </v-flex>
@@ -60,7 +59,7 @@
                 </v-flex>
             </v-layout>
         </v-container>             
-        <app-map></app-map>
+        <app-map ></app-map>
         </v-container>
     </v-app>    
 </template>
@@ -83,10 +82,11 @@ export default {
         return{
             
             image:'',
-            vehicle:{},
-            
+            vehicle:{},            
             value:false,
              file: '',
+             
+           
         
         }
        
@@ -95,7 +95,7 @@ export default {
     
 
     created(){
-        const self = this;
+        const self = this; 
          if(!this.$session.has('username')){
             this.$router.push('/login');
         }
@@ -109,16 +109,21 @@ export default {
           .then(response=>{
             console.log(response)
             self.vehicle = response.data       
-              
+           
+           
           })
           .catch(error=>{
             console.log(error.response.data.parse)
           });   
         
          self.image="http://localhost:5555/file?vehicleNum="+ this.$session.get('vehicleNum')
-
+        
+        
+       
                
     },
+     
+    
 
     components:{
         'app-map':Map,

@@ -5,7 +5,7 @@ export const incomeChartData = {
     datasets: [
       { // one line graph
         label: 'Daily Income',
-        data: [20000, 21000, 15000, 30000, 0, 29000, 31000],
+        data: [20000, 25000, 18000, 22000, 22000, 29000, 31000],
         backgroundColor:
           'rgb(52, 152, 219)',        
       },
@@ -34,9 +34,16 @@ export const incomeChartData = {
       yAxes: [{
                   gridLines: {
                       display:false
-                  }   
+                  },
+                  ticks: {
+                    beginAtZero: true,
+                    stepValue: 5,
+                    max: 24000
+                }
               }]
-      }
+      },
+
+      
   }
 }
 
