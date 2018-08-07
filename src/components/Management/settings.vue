@@ -82,7 +82,7 @@
                                             label="New Password"
                                             type="password"
                                             id="password"
-                                            v-model="user.password"
+                                            v-model="user2.password"
                                             :rules="passwordRules"
                                             ></v-text-field>
                                         </v-flex>                                  
@@ -115,7 +115,7 @@
                                         <v-flex xs6>
                                             <v-text-field
                                             solo
-                                            v-model="user.password"
+                                            v-model="user1.password"
                                             type="number"
                                             label="new telephone number"
                                             id="tel"
@@ -146,6 +146,12 @@ export default {
     data(){
         return{
             user:{
+
+            },
+            user1:{
+
+            },
+            user2:{
 
             },
             alert:false,
@@ -184,11 +190,11 @@ export default {
    methods:{
        updatePassword(){
            const self=this;
-           self.user.username=self.$session.get('username');
+           self.user2.username=self.$session.get('username');
           // console.log(user.username);
            let uri='http://localhost:5555/update-password';
         //axios.post(uri,{user: this.user})
-        axios.post(uri, self.user)
+        axios.post(uri, self.user2)
           .then(res=>{
             
             if(res.data.response=="success"){   
@@ -207,11 +213,11 @@ export default {
        updateTel(){
 
            const self=this;
-           self.user.username=self.$session.get('username');
+           self.user1.username=self.$session.get('username');
           // console.log(user.username);
            let uri='http://localhost:5555/update-tel';
         //axios.post(uri,{user: this.user})
-        axios.post(uri, self.user)
+        axios.post(uri, self.user1)
           .then(res=>{
             
             if(res.data.response=="success"){                   

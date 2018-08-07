@@ -12,7 +12,7 @@
                     <v-card>
                         <v-container fluid>
                             <v-layout row>
-                                <v-flex xs12 sm8>
+                                <v-flex xs12 sm8>                                
                                     <v-card-media
                                    :src="image"
                                     ref="imageUrl"
@@ -86,6 +86,7 @@ export default {
             value:false,
              file: '',
              
+             
            
         
         }
@@ -95,29 +96,56 @@ export default {
     
 
     created(){
-        const self = this; 
+        const self = this;        
          if(!this.$session.has('username')){
             this.$router.push('/login');
         }
 
-        
-       axios.get(`http://localhost:5555/getVehicle`,{
+        self.image="http://localhost:5555/file?vehicleNum="+ this.$session.get('vehicleNum')
+
+        axios.get(`http://localhost:5555/getVehicle`,{
         params: {
         vehicleNum:self.$session.get('vehicleNum')
         }
         })
           .then(response=>{
             console.log(response)
-            self.vehicle = response.data       
-           
-           
+            self.vehicle = response.data           
           })
           .catch(error=>{
             console.log(error.response.data.parse)
           });   
+
+        axios.get(`http://localhost:5555/dateWarning`,{
+        params: {
+        vehicleNum:self.$session.get('vehicleNum')
+        }
+        })
+          .then(response=>{
+           if(response.data.insuranceWarning<10){
+               confirm("Insurance date is "+response.data.insuranceWarning+" close ")
+           }
+
+           if(response.data.serviceWarning<10){
+               confirm("Service date is "+response.data.serviceWarning+" close ")
+           }
+
+           if(response.data.licenseWarning<10){
+              confirm("License date is "+response.data.licenseWarning+" close ")
+           }          
+
+
+          })
+          .catch(error=>{
+            console.log(error.response.data.parse)
+          });   
+
+
+       
         
-         self.image="http://localhost:5555/file?vehicleNum="+ this.$session.get('vehicleNum')
-        
+                 
+       
+      
         
        
                
@@ -138,21 +166,15 @@ export default {
             },        
 
         submitFile(){
-        /*  
-                Initialize the form data
-            */
+        
             const self=this
             let formData = new FormData();
 
-            /*
-                Add the form data we need to submit
-            */
+            
             formData.append('file', this.file);
             formData.append('num',self.$session.get('vehicleNum'));
             console.log(formData)
-        /*
-          Make the request to the POST /single-file URL
-        */
+        
             let uri='http://localhost:5555/upload';
            
          axios.post(uri,formData,{
@@ -179,9 +201,7 @@ export default {
           });
       },
 
-      /*
-        Handles a change on the file upload
-      */
+      
       handleFileUpload(){
         this.file = this.$refs.file.files[0];
       },
@@ -206,7 +226,9 @@ export default {
 
       }
 
-    }
+    },
+
+    
   
 }
 </script>

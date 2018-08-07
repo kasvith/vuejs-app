@@ -1,42 +1,65 @@
 <template>
-<v-container>
-    <!-- toolbar start -->
+  <v-container>
+      <!-- toolbar start -->
       <app-toolbar></app-toolbar>
       <!-- toolbar end -->
-    <v-container>
-      <div id="app">
-        <canvas id="profit-chart"></canvas>
-      </div>
-    </v-container>
-</v-container>
+ 
+      <v-container>
+        <chartjs-line
+            v-bind:labels="labels"
+            v-bind:datasets="datasets"
+            v-bind:option="option">
+        </chartjs-line>
+      </v-container>
+  </v-container>
 </template>
 
 <script>
-import Chart from 'chart.js'
-import profitChartData from '@/profitChart.js'
 import Toolbar1 from '@/components/toolbar1'
 
-export default {
-    
-  methods: {
-  createChart(chartId, chartData) {
-    const ctx = document.getElementById(chartId);
-    const myChart = new Chart(ctx, {
-      type: chartData.type,
-      data: chartData.data,
-      options: chartData.options,
-    });
-  }
-},
+export default {   
 
 data(){
     return{
-        profitChartData: profitChartData,
-    }
-},
+        labels:['1','2','3','4','5','6','7'],
+        datasets:[
+          {
+            label: 'Daily profit',
+            data:[15000, 19000, 15000, 16000, 16500, 22000, 23500],
+            fill:false ,
+            backgroundColor:
+              'rgb(52, 152, 219)',
+          }
+        ],
+        option: {
+          responsive:true,
+          title:{
+            display:true,
+            position:"bottom",
+            text:"Days"
+          },
+          scales: {
+            xAxes: [{
+                        gridLines: {
+                            display:false
+                        },
 
-mounted() {
-  this.createChart('profit-chart', this.profitChartData);
+                    }],
+            yAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks: {
+                          beginAtZero: true,
+                          stepSize:5000,
+                          max: 24000,
+                          min:0
+                      }   
+                    }]
+          }
+        },
+
+    }
 },
 
 components:{
