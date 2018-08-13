@@ -90,7 +90,7 @@ methods: {
     
     sendUser(){
        
-       let uri='http://localhost:5555/login';
+       let uri='http://173.82.219.12:5555/login';
         //axios.post(uri,{user: this.user})
         axios.post(uri, this.user)
           .then(res=>{
@@ -99,8 +99,11 @@ methods: {
                 this.$session.start
                 this.$session.set('username', this.user.username)               
                 this.$router.push('/home');
-            }else{
+            }else if(res.data.response=="fail"){
                 confirm("Incorrect username or password")
+                
+            }else{
+                confirm("Sorry Server is out of order ")
             }      
           
           })

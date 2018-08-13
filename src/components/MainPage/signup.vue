@@ -152,16 +152,20 @@ export default {
 methods: {
      createOwner(){
         console.log(this.owner);
-        let uri='http://localhost:5555/saveOwner';
+        let uri='http://173.82.219.12:5555/saveOwner';
         axios.post(uri,this.owner)
            .then(res=>{
             console.log(res)                       
             
               console.log(res.data.response)
+              
             if(res.data.response=="success"){   
                 this.$session.start
                 this.$session.set('username', this.owner.email)               
                 this.$router.push('/home');
+            }
+            if(res.data.response=="fail"){
+                confirm("User Exists");
             }
           
           })

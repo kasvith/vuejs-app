@@ -315,7 +315,7 @@ export default {
         self.vehicle.owner=self.$session.get('username')
         console.log(self.vehicle);
         
-        let uri='http://localhost:5555/saveVehicle';
+        let uri='http://173.82.219.12:5555/saveVehicle';
         axios.post(uri,self.vehicle)
           .then(response=>{
             console.log(response)
@@ -333,7 +333,7 @@ export default {
 
       deleteVehicle(n){
             const self = this;
-          axios.get(`http://localhost:5555/delete-vehicle`,{
+          axios.get(`http://173.82.219.12:5555/delete-vehicle`,{
     params: {
       id:n
     },
@@ -372,7 +372,7 @@ export default {
          }
          this.$session.start
         
-    axios.get(`http://localhost:5555/show-vehicles`,{
+    axios.get(`http://173.82.219.12:5555/show-vehicles`,{
     params: {
       username:self.$session.get('username')
     }
@@ -387,7 +387,7 @@ export default {
     })
 
     
-    axios.get(`http://localhost:5555/show-driver-names`,{
+    axios.get(`http://173.82.219.12:5555/show-driver-names`,{
     params: {
       username:self.$session.get('username')
     }

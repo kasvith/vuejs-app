@@ -192,7 +192,7 @@ export default {
            const self=this;
            self.user2.username=self.$session.get('username');
           // console.log(user.username);
-           let uri='http://localhost:5555/update-password';
+           let uri='http://173.82.219.12:5555/update-password';
         //axios.post(uri,{user: this.user})
         axios.post(uri, self.user2)
           .then(res=>{
@@ -215,7 +215,7 @@ export default {
            const self=this;
            self.user1.username=self.$session.get('username');
           // console.log(user.username);
-           let uri='http://localhost:5555/update-tel';
+           let uri='http://173.82.219.12:5555/update-tel';
         //axios.post(uri,{user: this.user})
         axios.post(uri, self.user1)
           .then(res=>{
@@ -239,7 +239,7 @@ export default {
            const self=this;
            self.user.username=self.$session.get('username');
            //console.log(this.user.username);
-           let uri='http://localhost:5555/check-password';
+           let uri='http://173.82.219.12:5555/check-password';
         //axios.post(uri,{user: this.user})
          axios.post(uri, self.user)
           .then(res=>{

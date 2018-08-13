@@ -7,6 +7,10 @@ import VueSession from 'vue-session'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import 'chart.js'
 import 'hchs-vue-charts'
+import 'firebase'
+import VueFire from 'vuefire'
+
+Vue.use(VueFire)
 Vue.use(window.VueCharts)
 
 Vue.use(VueGoogleMaps, {

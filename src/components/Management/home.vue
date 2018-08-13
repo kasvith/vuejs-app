@@ -80,17 +80,17 @@
                     :rotate="360"
                     :size="60"
                     :width="15"
-                    :value="value"
+                    :value=vehicle.Speed
                     color="speed1"                 
                   >
-                    {{ value }}
+                     {{ vehicle.Speed }}
                   </v-progress-circular>
                   </v-card-media>
               </v-flex>
               <v-flex xs6>               
                   <v-card flat class="rounded-card speed2">
                     <v-card-text class="text-xs-center speed1--text title">
-                      {{value}}
+                       {{vehicle.Speed}}
                     </v-card-text>
                   </v-card>              
               </v-flex>
@@ -117,7 +117,7 @@
                   <v-flex xs6>                    
                       <v-card flat class="rounded-card num_seats2">
                         <v-card-text class="text-xs-center num_seats1--text title" >
-                           <app-odo></app-odo>
+                           {{vehicle.Num_Of_Persons}}
                         </v-card-text>
                       </v-card>                  
                   </v-flex>
@@ -160,7 +160,19 @@
     <v-layout row wrap class="ml-5">
       <v-flex d-flex xs12 sm12 md6>
         <v-card>
-          <app-map></app-map>
+           <!-- <div id="map" style="width:400px;height:400px;background:yellow"></div> -->
+            <GmapMap
+              :center="{lat:vehicle.Latitude, lng:vehicle.Longitude}"
+              :zoom="10"
+              map-type-id="roadmap"
+              style="width: 550px; height: 420px"
+            >
+
+
+  <GmapMarker ref="myMarker"
+    :position="google && new google.maps.LatLng(vehicle.Latitude,vehicle.Longitude)" />
+</GmapMap>
+
         </v-card>
       </v-flex>
      
@@ -199,15 +211,41 @@ import Toolbar1 from '@/components/toolbar1'
 import Map from '@/components/map'
 import Odometer from '@/components/Management/odometer'
 import axios from "axios" 
+import Firebase from 'firebase'
+import {gmapApi} from 'vue2-google-maps'
+
+let config = {
+    apiKey: "AIzaSyDdQjRYLvoefMlvt4MnERvdMDOgQKMHs6A",
+    authDomain: "trackapp-1ee1c.firebaseapp.com",
+    databaseURL: "https://trackapp-1ee1c.firebaseio.com",
+    projectId: "trackapp-1ee1c",
+    storageBucket: "trackapp-1ee1c.appspot.com",
+    messagingSenderId: "344172659813"
+}
+
+let fire = Firebase.initializeApp(config);
+let db = fire.database();
 
  export default {
+    computed: {
+        google: gmapApi
+    },
+
+    name:'fire',
+   firebase:{
+        vehicle:{
+        source:db.ref('59029276955677351421b3ff6bf5ee4c/b977d0488fe60ba27f01392cfc686299'),
+        asObject:true
+        }
+    },
+
     data (){ 
       return{
         interval: {},
         value: 0,
         speed: '20',
         trip_num: '2',
-    
+        details:{},
         vehi_numbers:[],
 
       } 
@@ -229,7 +267,7 @@ import axios from "axios"
                 this.$router.push('/login');
          }   
 
-      axios.get(`http://localhost:5555/show-vehicle-numbers`,{
+      axios.get(`http://173.82.219.12:5555/show-vehicle-numbers`,{
       params: {
         username:self.$session.get('username')
       }
@@ -265,7 +303,9 @@ import axios from "axios"
         this.value += 5
       }, 1000)
 
-    }
+    },
+
+    
 
     
   }

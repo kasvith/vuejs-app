@@ -101,9 +101,9 @@ export default {
             this.$router.push('/login');
         }
 
-        self.image="http://localhost:5555/file?vehicleNum="+ this.$session.get('vehicleNum')
+        self.image="http://173.82.219.12:5555/file?vehicleNum="+ this.$session.get('vehicleNum')
 
-        axios.get(`http://localhost:5555/getVehicle`,{
+        axios.get(`http://173.82.219.12:5555/getVehicle`,{
         params: {
         vehicleNum:self.$session.get('vehicleNum')
         }
@@ -138,7 +138,7 @@ export default {
           })
           .catch(error=>{
             console.log(error.response.data.parse)
-          });   
+          });  
 
 
        
@@ -175,7 +175,7 @@ export default {
             formData.append('num',self.$session.get('vehicleNum'));
             console.log(formData)
         
-            let uri='http://localhost:5555/upload';
+            let uri='http://173.82.219.12:5555/upload';
            
          axios.post(uri,formData,{
                 headers: {
@@ -208,7 +208,7 @@ export default {
 
       deleteFile(n){
 
-          axios.get(`http://localhost:5555/deleteImage`,{
+          axios.get(`http://173.82.219.12:5555/deleteImage`,{
         params: {
             num:n
         }

@@ -130,7 +130,7 @@ export default {
          const self = this;
         self.driver.owner=self.$session.get('username')
         console.log(self.driver);
-        let uri='http://localhost:5555/saveDriver';
+        let uri='http://173.82.219.12:5555/saveDriver';
         axios.post(uri,self.driver)
           .then(response=>{
             console.log(response)
@@ -157,7 +157,7 @@ export default {
          }
       this.$session.start
       
-    axios.get(`http://localhost:5555/show-drivers`,{
+    axios.get(`http://173.82.219.12:5555/show-drivers`,{
     params: {
       username:self.$session.get('username')
     }
@@ -179,7 +179,7 @@ export default {
     
     deleteDriver(n){
       const self = this;
-          axios.get(`http://localhost:5555/delete-driver`,{
+          axios.get(`http://173.82.219.12:5555/delete-driver`,{
     params: {
       id:n
     },

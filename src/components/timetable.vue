@@ -179,7 +179,7 @@ export default {
                 console.log(this.time2)
 
             const self=this;
-        axios.get(`http://localhost:5555/showTimeTableWithTime`,{
+        axios.get(`http://173.82.219.12:5555/showTimeTableWithTime`,{
         params: {
         
         start:this.from,
