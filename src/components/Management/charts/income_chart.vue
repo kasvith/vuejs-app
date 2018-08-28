@@ -29,7 +29,7 @@ data(){
           {
             label: 'Daily income',
             //data:[20000, 25000, 18000, 22000, 22000, 29000, 31000],
-            data:[],
+            //data:[],
             backgroundColor:
               'rgb(52, 152, 219)',
           }
@@ -70,11 +70,11 @@ created(){
   axios.get(`http://localhost:5555/calIncome`,{
         params: {
         //vehicleNum:self.$session.get('vehicleNum')  
-           vehicleNum:'19-0523'  
+          vehicleNum:'19-0523'  
         }
         })
           .then(response=>{
-           self.datasets.data=response.data;
+           self.datasets.data=[200,100,50,10,20,30,25];
            console.log(response.data);        
           })
           .catch(error=>{

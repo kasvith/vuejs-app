@@ -19,6 +19,7 @@
                   solo
                   label="Vehicle Number"
                   class=""
+                  v-model="vehicleNumber"
                   flat
                 >
                 </v-select>
@@ -163,7 +164,7 @@
            <!-- <div id="map" style="width:400px;height:400px;background:yellow"></div> -->
             <GmapMap
               :center="{lat:vehicle.Latitude, lng:vehicle.Longitude}"
-              :zoom="10"
+              :zoom="17"
               map-type-id="roadmap"
               style="width: 550px; height: 420px"
             >
@@ -243,22 +244,17 @@ let db = fire.database();
       return{
         interval: {},
         value: 0,
-        speed: '20',
+        speed: '',
         trip_num: '2',
         details:{},
         vehi_numbers:[],
+        vehicleNumber:''
 
       } 
 
       },     
     
-   /*  created(){
-      const self = this;
-       if(!self.$session.has('username')){
-                this.$router.push('/login');
-         }   
-        
-    }, */
+     
 
     created(){
       const self=this;
@@ -282,6 +278,14 @@ let db = fire.database();
       })
     },
     
+    watch:{
+     vehicleNumber:function(val) {
+                 vehicleNumber=val;
+                 console.log(vehicleNumber);
+                  
+               },
+       
+    },
 
     components:{
       'app-toolbar':Toolbar1,

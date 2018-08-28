@@ -135,8 +135,8 @@
                 <td>{{ props.item.routeNumber}}</td>
                 <td>{{ props.item.startingPoint }}</td>
                 <td>{{ props.item.destination }}</td>
-                <td>{{ props.item.departureTime}}</td>
-                <td>{{ props.item.arivalTime}}</td>
+                <td>{{ props.item.departureTime+"0"}}</td>
+                <td>{{ props.item.arivalTime+"0"}}</td>                
                 </template>
             </v-data-table>
         </v-flex>
@@ -149,7 +149,7 @@
 import axios from "axios";
 
 export default {
-    data() {
+        data() {
         return{
             from: ['Matara','Galle'],
             to: ['Kadawatha','Galle'],
@@ -173,10 +173,7 @@ export default {
     },
     methods: {
         timeTable(){
-                console.log(this.from)
-                console.log(this.to)
-                console.log(this.time1)
-                console.log(this.time2)
+               
 
             const self=this;
         axios.get(`http://173.82.219.12:5555/showTimeTableWithTime`,{

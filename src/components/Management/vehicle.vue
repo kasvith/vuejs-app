@@ -46,6 +46,22 @@
                   </v-layout>
                   <v-layout row>
                     <v-flex xs12>
+                               <!-- <v-select
+                                    :items="item"
+                                    label="Select Driver"
+                                    v-model="vehicle.vehicleDriver"
+                                ></v-select>-->
+                                
+                                <v-select            
+                                  :items="routes"                                 
+                                  label="Vehicle Route"                                  
+                                  v-model="vehicle.route"                                  
+                                >
+                                </v-select>
+                            </v-flex>
+                  </v-layout>
+                  <v-layout row>
+                    <v-flex xs12>
                                 <v-text-field
                                     name="vehi_num"
                                     label="Vehicle number"
@@ -224,6 +240,7 @@
             <template slot="items" slot-scope="props">
                 <td>{{ props.item.deviceId }}</td>
                 <td><v-btn flat @click="details(props.item.vehicleNum)">{{ props.item.vehicleNum }}</v-btn></td>
+                 <td>{{ props.item.route }}</td>
                 <td>{{ props.item.vehicleMake }}</td>
                 <td>{{ props.item.vehicleModel }}</td>
                 <td>{{ props.item.vehicleDriver }}</td>               
@@ -249,6 +266,7 @@ export default {
         return{
             vehicles: [],
             items:[],
+            routes:[],
         
         vehicle:{
 
@@ -286,6 +304,7 @@ export default {
                 value: 'device' 
                 },
                 { text: 'Vehicle number', value: 'vehi_num', sortable:false },
+                 { text: 'Vehicle Route', value: 'vehi_make', sortable:false },
                 { text: 'Vehicle make', value: 'vehi_make', sortable:false },
                 { text: 'Vehicle model', value: 'vehi_model', sortable:false },
                 { text: 'Driver', value: 'vehi_model', sortable:false },
@@ -322,6 +341,10 @@ export default {
             if(response.data.response=="success"){   
                 
                 self.vehicles.push(self.vehicle)
+               //self.vehicles.push(object.assign({},self.vehicle));
+            }
+            if(response.data.response=="error"){
+                confirm("Vehicle Exists. Check your vehicle number");
             }
             
           })
@@ -396,6 +419,16 @@ export default {
       // JSON responses are automatically parsed.
       this.items = response.data
      
+      
+    })
+    .catch(e => {
+      self.errors.push(e)
+    })
+
+    axios.get(`http://173.82.219.12:5555/show-routes`)
+    .then(response => {
+      // JSON responses are automatically parsed.
+      this.routes = response.data     
       
     })
     .catch(e => {

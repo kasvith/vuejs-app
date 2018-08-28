@@ -25,13 +25,14 @@
                                         <div>
                                             <p style="font-size:18px">Device Id: <v-chip outline color="primary">{{vehicle.deviceId}}</v-chip></p>
                                             <p style="font-size:18px">Vehicle Number: <v-chip outline color="primary">{{vehicle.vehicleNum}}</v-chip></p>
+                                            <p style="font-size:18px">Vehicle Route: <v-chip outline color="primary">{{vehicle.route}}</v-chip></p>
                                             <p style="font-size:18px">Vehicle Make: <v-chip outline color="primary">{{vehicle.vehicleMake}}</v-chip></p>
                                             <p style="font-size:18px">Vehicle Model: <v-chip outline color="primary">{{vehicle.vehicleModel}}</v-chip></p>
                                             <p style="font-size:18px">Driver: <v-chip outline color="primary">{{vehicle.vehicleDriver}}</v-chip></p>
                                             <p style="font-size:18px">Number of seats: <v-chip outline color="primary">{{vehicle.noOfSeats}}</v-chip></p>
-                                            <p style="font-size:18px">License Date: <v-chip outline color="primary">{{vehicle.licenseDate}}</v-chip></p>
-                                            <p style="font-size:18px">Insurance Date: <v-chip outline color="primary">{{vehicle.insuranceDate}}</v-chip></p>
-                                            <p style="font-size:18px">Service Date: <v-chip outline color="primary">{{vehicle.serviceDate}}</v-chip></p>                                           
+                                            <p style="font-size:18px">License Date: <v-chip outline style="color:#311B92" id="chip_license">{{vehicle.licenseDate}}</v-chip></p>
+                                            <p style="font-size:18px">Insurance Date: <v-chip outline style="color:#311B92" id="chip_insurance">{{vehicle.insuranceDate}}</v-chip></p>
+                                            <p style="font-size:18px">Service Date: <v-chip outline style="color:#311B92" id="chip_service">{{vehicle.serviceDate}}</v-chip></p>                                           
                                         </div>
                                         </v-card-title>
                                         
@@ -58,186 +59,238 @@
                     </v-card>
                 </v-flex>
             </v-layout>
-        </v-container>             
-        <app-map ></app-map>
+        </v-container> 
+        <v-container>            
+        <v-layout row wrap>
+            <v-flex xs12>
+                    <v-layout row>
+                    <v-flex xs12>
+                        <v-menu
+                            ref="menu"
+                            :close-on-content-click="false"
+                            v-model="menu3"
+                            :nudge-right="40"
+                            lazy
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            min-width="290px"
+                        >
+                            <v-text-field
+                            slot="activator"
+                            v-model="a"
+                            label="Service date"
+                            prepend-icon="event"
+                            readonly
+                            ></v-text-field>
+                            <v-date-picker
+                           
+                            v-model="a"
+                             @input="menu3=false"
+                            ></v-date-picker>
+                        </v-menu>
+                        <v-btn
+                            @click="history(a)"
+                        >
+                        Submit
+                        </v-btn>
+                    </v-flex>
+                  </v-layout>
+                    <v-card>
+                        <!-- <div id="map" style="width:400px;height:400px;background:yellow"></div> -->
+                        <GmapMap
+                            :center="{lat:latlan.lat, lng:latlan.lan}"
+                            :zoom="10"
+                            map-type-id="roadmap"
+                            style="width: 100%; height: 500px"
+                            >
+                            <GmapMarker ref="myMarker"
+                                :position="google && new google.maps.LatLng(latlan.lat,latlan.lan)" />
+                        </GmapMap>
+                          {{latlan}}
+                    </v-card>
+            </v-flex>
+        </v-layout>
+        </v-container>
         </v-container>
     </v-app>    
 </template>
 
 <script>
-import Map from '@/components/map'
+//import Map from '@/components/map'
+import { gmapApi } from "vue2-google-maps";
 import axios from "axios";
 export default {
-    props: {
-            value: {
-                type: String
-            },
-            accept: {
-                type: String,
-                default: '*'
-            },
-           
-        },
-    data(){
-        return{
+  props: {
+    value: {
+      type: String
+    },
+    accept: {
+      type: String,
+      default: "*"
+    }
+  },
+  data() {
+    return {
+      image: "",
+      vehicle: {},
+      value: false,
+      file: "",
+      latlan: [],
+      a: "",
+      menu3: false,
+    };
+  },
+
+  computed: {
+    google: gmapApi
+  },
+
+  created() {
+    const self = this;
+    if (!this.$session.has("username")) {
+      this.$router.push("/login");
+    }
+
+    self.image =
+      "http://173.82.219.12:5555/file?vehicleNum=" +
+      this.$session.get("vehicleNum");
+
+    axios
+      .get(`http://173.82.219.12:5555/getVehicle`, {
+        params: {
+          vehicleNum: self.$session.get("vehicleNum")
+        }
+      })
+      .then(response => {
+        console.log(response);
+        self.vehicle = response.data;
+      })
+      .catch(error => {
+        console.log(error.response.data.parse);
+      });
+
+    axios
+      .get(`http://173.82.219.12:5555/dateWarning`, {
+        params: {
+          vehicleNum: self.$session.get("vehicleNum")
+        }
+      })
+      .then(response => {
+        if (response.data.insuranceWarning < 10) {
+         
+          document.getElementById("chip_license").style.color = "red";
+        }
+
+        if (response.data.serviceWarning < 10) {
+          
+           document.getElementById("chip_insurance").style.color = "red";
+        }
+
+        if (response.data.licenseWarning < 10) {
+          
+          document.getElementById("chip_service").style.color = "red";
+        }
+      })
+      .catch(error => {
+        console.log(error.response.data.parse);
+      });
+  },
+
+  components: {
+    "app-map": Map
+  },
+
+  methods: {
+
+    history(n) {
+        const self=this;
+      console.log(n);
+      axios
+        .get(`http://localhost:5555/historyByDate`, {
+          params: {
+            date: "2018-02-01",
+            vehicleNum: "19-0523"
+          }
+        })
+        .then(response => {
+         
+          self.latlan = response.data.history;
+            console.log( self.latlan);
             
-            image:'',
-            vehicle:{},            
-            value:false,
-             file: '',
-             
-             
-           
-        
-        }
-       
-    },
-
-    
-
-    created(){
-        const self = this;        
-         if(!this.$session.has('username')){
-            this.$router.push('/login');
-        }
-
-        self.image="http://173.82.219.12:5555/file?vehicleNum="+ this.$session.get('vehicleNum')
-
-        axios.get(`http://173.82.219.12:5555/getVehicle`,{
-        params: {
-        vehicleNum:self.$session.get('vehicleNum')
-        }
         })
-          .then(response=>{
-            console.log(response)
-            self.vehicle = response.data           
-          })
-          .catch(error=>{
-            console.log(error.response.data.parse)
-          });   
+        .catch(e => {
+          self.errors.push(e);
+        });
+    },
 
-        axios.get(`http://localhost:5555/dateWarning`,{
-        params: {
-        vehicleNum:self.$session.get('vehicleNum')
-        }
+    onPickFile() {
+      this.$refs.file.click();
+    },
+
+    submitFile() {
+      const self = this;
+      let formData = new FormData();
+
+      formData.append("file", this.file);
+      formData.append("num", self.$session.get("vehicleNum"));
+      console.log(formData);
+
+      let uri = "http://173.82.219.12:5555/upload";
+
+      axios
+        .post(uri, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         })
-          .then(response=>{
-           if(response.data.insuranceWarning<10){
-               confirm("Insurance date is "+response.data.insuranceWarning+" close ")
-           }
+        .then(response => {
+          console.log(response);
+          if (response.data.response == "success") {
+            //error msg
+            console.log("Successfully uploaded!!");
 
-           if(response.data.serviceWarning<10){
-               confirm("Service date is "+response.data.serviceWarning+" close ")
-           }
+            confirm("upload successful");
+          }
 
-           if(response.data.licenseWarning<10){
-              confirm("License date is "+response.data.licenseWarning+" close ")
-           }          
-
-
-          })
-          .catch(error=>{
-            console.log(error.response.data.parse)
-          });  
-
-
-       
-        
-                 
-       
-      
-        
-       
-               
-    },
-     
-    
-
-    components:{
-        'app-map':Map,
-        
-    },
-
-    methods:{
-
-        onPickFile() {
-                this.$refs.file.click()
-                
-            },        
-
-        submitFile(){
-        
-            const self=this
-            let formData = new FormData();
-
-            
-            formData.append('file', this.file);
-            formData.append('num',self.$session.get('vehicleNum'));
-            console.log(formData)
-        
-            let uri='http://173.82.219.12:5555/upload';
-           
-         axios.post(uri,formData,{
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-              })
-          .then(response=>{
-              console.log(response)
-              if(response.data.response=="success"){
-                 //error msg               
-                  console.log("Successfully uploaded!!")
-                
-                  confirm("upload successful")
-              }
-
-              if(response.data.response=="error"){
-                  confirm("Cant upload the image")
-              }
-           
-          })
-          .catch(error=>{
-            console.log(error)
-          });
-      },
-
-      
-      handleFileUpload(){
-        this.file = this.$refs.file.files[0];
-      },
-
-      deleteFile(n){
-
-          axios.get(`http://173.82.219.12:5555/deleteImage`,{
-        params: {
-            num:n
-        }
+          if (response.data.response == "error") {
+            confirm("Cant upload the image");
+          }
         })
-          .then(response=>{
-
-           if(response.data.response=="success"){
-               confirm("Image is deleted.")
-           }       
-              
-          })
-          .catch(error=>{
-            confirm(error)
-          });   
-
-      }
-
+        .catch(error => {
+          console.log(error);
+        });
     },
 
-    
-  
-}
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    },
+
+    deleteFile(n) {
+      axios
+        .get(`http://173.82.219.12:5555/deleteImage`, {
+          params: {
+            num: n
+          }
+        })
+        .then(response => {
+          if (response.data.response == "success") {
+            confirm("Image is deleted.");
+          }
+        })
+        .catch(error => {
+          confirm(error);
+        });
+    }
+  }
+};
 </script>
 
 <style scoped>
-    input[type=file] {
-        position: absolute;
-        left: -99999px;
-    }
+input[type="file"] {
+  position: absolute;
+  left: -99999px;
+}
 </style>
 
 

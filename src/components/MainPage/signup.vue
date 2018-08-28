@@ -79,11 +79,12 @@
                             <v-flex xs12>
                                 <v-text-field
                                     box
-                                    name="password"
+                                    name="confirmPassword"
                                     label="Confirm Password"
-                                    id="password"
-                                    
+                                    id="confirmPassword"
+                                    :rules="[comparePasswords]"
                                     type="password"
+                                    v-model="confirmPassword"
                                     required>
                                 </v-text-field>
                             </v-flex>
@@ -116,6 +117,7 @@ export default {
         owner:{
 
         },
+        confirmPassword:'',
 
         valid:false,
             name: '',
@@ -136,13 +138,15 @@ export default {
                 v => !!v || 'Password is required',
                 v => v.length >= 8 || 'Password must be at least 8 characters'
             ],
-            confirmPassword:'',
-            confirmRules: [
-                v => v == this.password || ''
-                
-            ],       
+               
       }
      
+},
+
+computed:{
+    comparePasswords(){
+        return this.owner.password!==this.confirmPassword ? 'Passwords do not match' :true
+    }
 },
 
  components:{
