@@ -16,7 +16,7 @@
 
 <script>
 import Toolbar1 from '@/components/toolbar1'
-
+import axios from "axios"
 export default {   
 
 data(){
@@ -25,7 +25,8 @@ data(){
         datasets:[
           {
             label: 'Fuel Chart',
-            data:[5000, 6000, 3000, 6000, 5500, 7000, 7500],
+            //data:[5000, 6000, 3000, 6000, 5500, 7000, 7500],
+            data:[],
             backgroundColor: [
             'rgb(27, 79, 114)',
             'rgb(33, 97, 140)',
@@ -65,6 +66,24 @@ data(){
         },
 
     }
+},
+created:function(){
+  //this.datasets[0].data=[5000, 6000, 3000, 6000, 5500, 7000, 7500];
+   const self=this;
+    //self.datasets[0].data= [20000, 25000, 18000, 22000, 22000, 29000, 31000];
+    axios.get(`http://localhost:5555/FuelPerWeek`,{
+        params: {
+        vehicleNum:self.$session.get('vehicleNum')  
+          //vehicleNum:'19-0523'  
+        }
+        })
+          .then(response=>{
+          self.datasets[0].data=response.data;
+           console.log(response.data);        
+          })
+          .catch(error=>{
+            console.log("error")
+          }); 
 },
 
 components:{

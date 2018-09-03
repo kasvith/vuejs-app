@@ -5,86 +5,99 @@
       <!-- toolbar end -->
  
       <v-container>
+        <v-flex>
         <chartjs-bar
                    v-bind:labels="labels"
                    v-bind:datasets="datasets"
                    v-bind:option="option">
                    
         </chartjs-bar>
+        </v-flex>
       </v-container>
     
   </v-container>
 </template>
 
 <script>
-import Toolbar1 from '@/components/toolbar1'
+import Toolbar1 from "@/components/toolbar1";
 import axios from "axios"
-export default {   
+export default {
+  data() {
+    return {
+      
+    };
+  },
 
-data(){
-    return{
-        labels:['1','2','3','4','5','6','7'],
-        
-        datasets:[
-          {
-            label: 'Daily income',
-            //data:[20000, 25000, 18000, 22000, 22000, 29000, 31000],
-            //data:[],
-            backgroundColor:
-              'rgb(52, 152, 219)',
-          }
-        ],
-        option: {
-          responsive:true,
-          title:{
-            display:true,
-            position:"bottom",
-            text:"Days"
-          },
-          scales: {
-            xAxes: [{
-                        gridLines: {
-                            display:false
-                        },
-                        barThickness : 40
-                    }],
-            yAxes: [{
-                        gridLines: {
-                            display:false
-                        },
-                        ticks: {
-                          beginAtZero: true,
-                          stepSize:4000,
-                          max: 32000
-                      }   
-                    }]
-          }
+  
+
+    data:()=>({
+    labels: ["1", "2", "3", "4", "5", "6", "7"],
+   
+      datasets: [
+        {
+          
+          label: "Daily income",
+          //data:[20000, 25000, 18000, 22000, 22000, 29000, 31000],
+          data: [],
+          backgroundColor: "rgb(52, 152, 219)"
+        }
+      ],
+      option: {
+        responsive: true,
+        title: {
+          display: true,
+          position: "bottom",
+          text: "Days"
         },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: false
+              },
+              barThickness: 40
+            }
+          ],
+          yAxes: [
+            {
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                beginAtZero: true,
+                stepSize: 4000,
+                max: 32000
+              }
+            }
+          ]
+        }
+      }
+  }),
 
-    }
-},
-
-created(){
-  const self=this;
-
-  axios.get(`http://localhost:5555/calIncome`,{
+  created:function() {
+     const self=this;
+    //self.datasets[0].data= [20000, 25000, 18000, 22000, 22000, 29000, 31000];
+    axios.get(`http://localhost:5555/calIncome`,{
         params: {
-        //vehicleNum:self.$session.get('vehicleNum')  
-          vehicleNum:'19-0523'  
+          vehicleNum:self.$session.get('vehicleNum')  
+          //vehicleNum:'19-0523'  
         }
         })
           .then(response=>{
-           self.datasets.data=[200,100,50,10,20,30,25];
+          self.datasets[0].data=response.data;
            console.log(response.data);        
           })
           .catch(error=>{
             console.log("error")
-          });   
+          }); 
+         
+  },
 
-},
-components:{
-      'app-toolbar':Toolbar1
-    }
-}
+  
+
+  components: {
+    "app-toolbar": Toolbar1
+  }
+};
 </script>
 

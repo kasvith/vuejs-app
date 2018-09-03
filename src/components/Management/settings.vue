@@ -78,7 +78,7 @@
                                     <v-layout row wrap>
                                         <v-flex xs6>
                                             <v-text-field 
-                                            solo
+                                            box
                                             label="New Password"
                                             type="password"
                                             id="password"
@@ -88,15 +88,16 @@
                                         </v-flex>                                  
                                         <v-flex xs6>
                                             <v-text-field 
-                                            solo
+                                            box
                                             label="Confirm Password"
                                             type="password"
                                             id="confirmPassword"
-                                            :rules="confirmRules"
+                                            :rules="[comparePasswords]"
+                                            v-model="confirmPassword"
                                             ></v-text-field>
                                         </v-flex>
                                         <v-flex xs12>
-                                        <v-btn  @click.native="updatePassword()">OK</v-btn>
+                                        <v-btn  color="secondary" @click.native="updatePassword()">OK</v-btn>
                                         </v-flex>
                                     </v-layout>
                                     </form>
@@ -114,16 +115,77 @@
                                     <v-layout>
                                         <v-flex xs6>
                                             <v-text-field
-                                            solo
+                                            box
                                             v-model="user1.password"
                                             type="number"
                                             label="new telephone number"
                                             id="tel"
                                             :rules="telephoneRules"
                                             ></v-text-field>
-                                        </v-flex>                                  
+                                        </v-flex>   
+                                    </v-layout>
+                                    <v-layout>                               
                                         <v-flex xs6>
-                                            <v-btn @click.native="updateTel()">OK</v-btn>
+                                            <v-btn color="secondary" @click.native="updateTel()">Update</v-btn>
+                                        </v-flex>
+                                    </v-layout>
+                                    </form>
+                                </v-card-text>
+                                </v-card>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
+                            <v-expansion-panel-content expand-icon="edit">
+                                <div slot="header">Enter Expenses</div>
+                                <v-card>
+                                <v-card-text>
+                                    <form>
+                                    <v-layout>
+                                        <v-flex xs6>
+                                            <v-text-field
+                                            solo
+                                            v-model="user3.price"
+                                            type="number"
+                                            label="Diesel price per litre"
+                                            id="diesel_price"                                            
+                                            ></v-text-field>
+                                        </v-flex> 
+                                        <v-flex xs6 >
+                                            <v-btn  color="secondary" @click.native="updateDieselPrice()">Update</v-btn>
+                                        </v-flex>       
+                                    </v-layout>
+                                    <v-layout>
+                                        <v-flex xs6>
+                                            <v-text-field
+                                            solo
+                                            v-model="user3.driverSalary"
+                                            type="number"
+                                            label="Driver's Salary"
+                                            id="driver_salary"                                            
+                                            ></v-text-field>
+                                        </v-flex>  
+                                        <v-flex xs6>
+                                            <v-btn color="secondary" @click.native="updateDriverSalary()">Update</v-btn>
+                                        </v-flex>       
+                                    </v-layout>
+                                    <v-layout>
+                                        <v-flex xs6>
+                                            <v-text-field
+                                            solo
+                                            v-model="user3.conductorSalary"
+                                            type="number"
+                                            label="Conductor's Salary"
+                                            id="conductor_salary"                                            
+                                            ></v-text-field>
+                                        </v-flex>  
+                                        <v-flex xs6>
+                                            <v-btn color="secondary" @click.native="updateConductorSalary()">Update</v-btn>
+                                        </v-flex>       
+                                    </v-layout>
+                                    <v-layout>
+                                                                     
+                                        <v-flex xs6>
+                                            <v-btn id="btnExpense" color="primary" @click.native="createExpenses()">OK</v-btn>
                                         </v-flex>
                                     </v-layout>
                                     </form>
@@ -145,15 +207,10 @@ import axios from "axios"
 export default {
     data(){
         return{
-            user:{
-
-            },
-            user1:{
-
-            },
-            user2:{
-
-            },
+            user:{},
+            user1:{},
+            user2:{},
+            user3:{},
             alert:false,
             valid:false,   
             dialog:true,        
@@ -168,12 +225,16 @@ export default {
                 v => v.length >= 8 || 'Password must be at least 8 characters'
             ],
             confirmPassword:'',
-            confirmRules:[
-                v => v == this.password || '',
-                
-            ],  
+             
         }
     },
+
+    computed:{
+        comparePasswords(){
+            return this.user2.password!==this.confirmPassword ? 'Passwords do not match' :true
+        }
+    },
+
    components:{
        'app-toolbar':Toolbar1
    },
@@ -224,7 +285,7 @@ export default {
                confirm("updated telephone number successfully")
 
             }else{
-                confirm("cannot update password")
+                confirm("cannot update telephone number")
             }      
           
           })
@@ -232,6 +293,98 @@ export default {
             console.log(error.response.data.parse)
           });
 
+       },
+
+       createExpenses(){
+
+           const self=this;
+           self.user3.username=self.$session.get('username');
+          
+           let uri='http://localhost:5555/create-expenses';
+       
+            axios.post(uri, self.user3)
+            .then(res=>{
+                console.log(res.data);
+                if(res.data.response=="success"){                                     
+                    confirm("updated expenses successfully")
+
+                }else if(res.data.response=="error"){
+                    confirm("You already entered the values, use update buttons instead for updating")
+                }
+                else{
+                    confirm("cannot update expenses")
+                }      
+            
+            })
+            .catch(error=>{
+                console.log(error.response.data.parse)
+            })
+       },
+
+       updateDieselPrice(){
+           const self=this;
+           self.user3.username=self.$session.get('username');
+          
+           let uri='http://localhost:5555/update-diesel-price';
+       
+            axios.post(uri, self.user3)
+            .then(res=>{
+                
+                if(res.data.response=="success"){                   
+                    confirm("updated fuel price successfully")
+
+                }else{
+                    confirm("cannot update fuel price")
+                }      
+            
+            })
+            .catch(error=>{
+                console.log(error.response.data.parse)
+            })
+       },
+
+       updateDriverSalary(){
+            const self=this;
+           self.user3.username=self.$session.get('username');
+          
+           let uri='http://localhost:5555/update-driver-salary';
+       
+            axios.post(uri, self.user3)
+            .then(res=>{
+                
+                if(res.data.response=="success"){                   
+                    confirm("updated driver's salary successfully")
+
+                }else{
+                    confirm("cannot update driver's salary")
+                }      
+            
+            })
+            .catch(error=>{
+                console.log(error.response.data.parse)
+            })
+       },
+
+       updateConductorSalary(){
+                 const self=this;
+           self.user3.username=self.$session.get('username');
+          
+           let uri='http://localhost:5555/update-conductor-salary';
+       
+            axios.post(uri, self.user3)
+            .then(res=>{
+                
+                if(res.data.response=="success"){                   
+                    confirm("updated conductor's salary successfully")
+
+                }else{
+                    confirm("cannot update conductor's salary")
+                }      
+            
+            })
+            .catch(error=>{
+                console.log(error.response.data.parse)
+            })
        },
 
        checkPassword(){

@@ -19,22 +19,22 @@
                   solo
                   label="Vehicle Number"
                   class=""
-                  v-model="vehicleNumber"
+                  v-model="vehicleNumber"                  
                   flat
                 >
                 </v-select>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text class="title">
-            Speed:{{speed}}
+            Speed:
             </v-card-text>          
             <v-card-text class="title">
-              No. of passengers: {{num_seats}}
+              No. of passengeeeers: 
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
-<!--extra small devices-->
+ <!--extra small devices-->
 
 <v-container fluid>
 <!--md devices-->
@@ -55,6 +55,7 @@
                   :items="vehi_numbers"
                   solo
                   label="Vehicle Number"
+                  v-model="vehicleNumber"  
                   class="c"
                   flat
                 >
@@ -253,6 +254,14 @@ let db = fire.database();
       } 
 
       },     
+
+      watch: {
+        vehicleNumber: function () {
+              console.log(this.vehicleNumber);
+              this.$session.start
+              this.$session.set('vehicleNum', this.vehicleNumber)
+          }
+      },
     
      
 
@@ -260,7 +269,7 @@ let db = fire.database();
       const self=this;
       
        if(!self.$session.has('username')){
-                this.$router.push('/login');
+            this.$router.push('/login');
          }   
 
       axios.get(`http://173.82.219.12:5555/show-vehicle-numbers`,{
@@ -278,14 +287,8 @@ let db = fire.database();
       })
     },
     
-    watch:{
-     vehicleNumber:function(val) {
-                 vehicleNumber=val;
-                 console.log(vehicleNumber);
-                  
-               },
-       
-    },
+    
+   
 
     components:{
       'app-toolbar':Toolbar1,

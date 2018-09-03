@@ -16,7 +16,7 @@
 
 <script>
 import Toolbar1 from '@/components/toolbar1'
-
+import axios from "axios"
 export default {   
 
 data(){
@@ -25,7 +25,8 @@ data(){
         datasets:[
           {
             label: 'Daily profit',
-            data:[15000, 19000, 15000, 16000, 16500, 22000, 23500],
+            //data:[15000, 19000, 15000, 16000, 16500, 22000, 23500],
+            data:[],
             fill:false ,
             backgroundColor:
               'rgb(52, 152, 219)',
@@ -62,6 +63,24 @@ data(){
     }
 },
 
+created:function(){
+  //this.datasets[0].data=[15000, 19000, 15000, 16000, 16500, 22000, 23500];
+  const self=this;
+    //self.datasets[0].data= [20000, 25000, 18000, 22000, 22000, 29000, 31000];
+    axios.get(`http://localhost:5555/calProfit`,{
+        params: {
+        vehicleNum:self.$session.get('vehicleNum')  
+        //vehicleNum:'19-0523'  
+        }
+        })
+          .then(response=>{
+          self.datasets[0].data=response.data;
+           console.log(response.data);        
+          })
+          .catch(error=>{
+            console.log("error")
+          }); 
+},
 components:{
       'app-toolbar':Toolbar1
     }

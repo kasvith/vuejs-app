@@ -96,18 +96,23 @@
                         </v-btn>
                     </v-flex>
                   </v-layout>
-                    <v-card>
-                        <!-- <div id="map" style="width:400px;height:400px;background:yellow"></div> -->
+                    <v-card>                        
                         <GmapMap
-                            :center="{lat:latlan.lat, lng:latlan.lan}"
-                            :zoom="10"
+                            :center="{lat:7.8731, lng:80.7718}"
+                            :zoom="7"
                             map-type-id="roadmap"
                             style="width: 100%; height: 500px"
-                            >
-                            <GmapMarker ref="myMarker"
-                                :position="google && new google.maps.LatLng(latlan.lat,latlan.lan)" />
+                            >                    
+                            <GmapMarker
+                                :key="index"
+                                v-for="(m, index) in latlan"
+                                :position="google && new google.maps.LatLng(m.lat,m.lan)"
+                                :clickable="true"
+                                :draggable="true"
+                                @click="center=m.position"
+                            />
                         </GmapMap>
-                          {{latlan}}
+                         
                     </v-card>
             </v-flex>
         </v-layout>
@@ -209,14 +214,14 @@ export default {
       axios
         .get(`http://localhost:5555/historyByDate`, {
           params: {
-            date: "2018-02-01",
-            vehicleNum: "19-0523"
+            date: n,
+            vehicleNum: self.$session.get("vehicleNum")
           }
         })
         .then(response => {
          
           self.latlan = response.data.history;
-            console.log( self.latlan);
+          console.log(self.latlan);
             
         })
         .catch(e => {
@@ -247,9 +252,6 @@ export default {
         .then(response => {
           console.log(response);
           if (response.data.response == "success") {
-            //error msg
-            console.log("Successfully uploaded!!");
-
             confirm("upload successful");
           }
 
@@ -276,6 +278,8 @@ export default {
         .then(response => {
           if (response.data.response == "success") {
             confirm("Image is deleted.");
+          }else{
+            confirm("Image cannot be deleted");
           }
         })
         .catch(error => {
