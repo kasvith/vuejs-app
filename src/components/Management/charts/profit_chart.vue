@@ -67,7 +67,7 @@ created:function(){
   //this.datasets[0].data=[15000, 19000, 15000, 16000, 16500, 22000, 23500];
   const self=this;
     //self.datasets[0].data= [20000, 25000, 18000, 22000, 22000, 29000, 31000];
-    axios.get(`http://localhost:5555/calProfit`,{
+    axios.get(`http://173.82.219.12:5555/calProfit`,{
         params: {
         vehicleNum:self.$session.get('vehicleNum')  
         //vehicleNum:'19-0523'  

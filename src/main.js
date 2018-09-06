@@ -9,6 +9,10 @@ import 'chart.js'
 import 'hchs-vue-charts'
 import 'firebase'
 import VueFire from 'vuefire'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
+AOS.init()
 
 Vue.use(VueFire)
 Vue.use(window.VueCharts)

@@ -11,7 +11,7 @@
 <v-container>
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
-      <v-card color="transparent white--text" flat>
+      <v-card color="transparent white--text" flat data-aos="zoom-in" data-aos-duration="2000">
             <v-card-title >
                 <h3 class="headline mb-0">Login</h3>
             </v-card-title>

@@ -212,7 +212,7 @@ export default {
         const self=this;
       console.log(n);
       axios
-        .get(`http://localhost:5555/historyByDate`, {
+        .get(`http://173.82.219.12:5555/historyByDate`, {
           params: {
             date: n,
             vehicleNum: self.$session.get("vehicleNum")
