@@ -79,7 +79,9 @@ created:function(){
         })
           .then(response=>{
           self.datasets[0].data=response.data;
-           console.log(response.data);        
+          //self.datasets[0].data=[20000, 25000, 18000, 22000, 22000, 29000, 31000];
+          //chartjs-bar.update();
+          console.log(response.data);        
           })
           .catch(error=>{
             console.log("error")

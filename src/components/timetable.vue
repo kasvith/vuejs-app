@@ -11,12 +11,7 @@
         </v-flex>
     </v-layout>
     <v-layout row wrap>
-        <!-- <v-flex xs12 sm6 offset-sm3>
-            <v-radio-group v-model="radios" :mandatory="false" column>
-                <v-radio label="Date" value="date" class="text-xs-center"></v-radio>
-                <v-radio label="Time" value="time"></v-radio>
-            </v-radio-group>
-        </v-flex> -->
+      
         <v-flex xs12 sm6>
             <v-card>
                 
@@ -136,7 +131,8 @@
                 <td>{{ props.item.startingPoint }}</td>
                 <td>{{ props.item.destination }}</td>
                 <td>{{ props.item.departureTime+"0"}}</td>
-                <td>{{ props.item.arivalTime+"0"}}</td>                
+                <td>{{ props.item.arivalTime+"0"}}</td>    
+                <td><v-icon exact :style="{ cursor: 'pointer'}" @click="updateTimeTable(props.item.id)">edit</v-icon></td>            
                 </template>
             </v-data-table>
         </v-flex>
@@ -195,6 +191,10 @@ export default {
             console.log(error.response.data.parse)
           });  
 
+        },
+
+        updateTimeTable(n){
+            
         }
       
     }

@@ -239,7 +239,7 @@ export default {
 
       formData.append("file", this.file);
       formData.append("num", self.$session.get("vehicleNum"));
-      console.log(formData);
+     // console.log(formData);
 
       let uri = "http://173.82.219.12:5555/upload";
 
@@ -256,7 +256,7 @@ export default {
           }
 
           if (response.data.response == "error") {
-            confirm("Cant upload the image");
+            confirm("Can't upload the image");
           }
         })
         .catch(error => {

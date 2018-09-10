@@ -109,7 +109,23 @@
 <script>
 import axios from "axios";
 import Toolbar2 from '@/components/toolbar2'
+import Firebase from 'firebase'
+
+ let config = {
+    apiKey: "AIzaSyDdQjRYLvoefMlvt4MnERvdMDOgQKMHs6A",
+    authDomain: "trackapp-1ee1c.firebaseapp.com",
+    databaseURL: "https://trackapp-1ee1c.firebaseio.com",
+    projectId: "trackapp-1ee1c",
+    storageBucket: "trackapp-1ee1c.appspot.com",
+    messagingSenderId: "344172659813"
+}
+
+
+
+
 export default {
+
+    name:'fire',
     
     data () {
       return {
@@ -165,7 +181,8 @@ methods: {
               
             if(res.data.response=="success"){   
                 this.$session.start
-                this.$session.set('username', this.owner.email)               
+                this.$session.set('username', this.owner.email);    
+                    
                 this.$router.push('/home');
             }
             if(res.data.response=="fail"){

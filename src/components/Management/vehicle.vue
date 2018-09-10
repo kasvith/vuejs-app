@@ -230,6 +230,51 @@
     </v-dialog>
 <!--end-dialog-->
 
+<!--edit dialog starts-->
+        <v-dialog
+          v-model="Editdialog"
+          max-width="290"
+          persistent
+        >
+          <v-card>
+                <v-card-title class="headline">Change Driver</v-card-title>
+                <v-card-text>
+                <v-container>
+                    <form>
+                    <v-layout row>
+                        <v-flex xs12>
+                            <v-select            
+                                  :items="items"                                 
+                                  label="Vehicle Driver"                                  
+                                  v-model="user.password"                                  
+                                >
+                                </v-select>    
+                            </v-flex>
+                                
+                    </v-layout>
+                    
+                    </form>
+                </v-container>
+                </v-card-text>
+            <v-card-actions>
+                <v-layout row wrap>
+                    <v-flex xs12 class="text-xs-center">
+                    <v-btn             
+                    flat="flat"
+                    class="secondary"
+                    @click.native="updateDriverName(), Editdialog= false"
+                    >
+                        OK
+                    </v-btn>
+                  
+                    </v-flex>
+                </v-layout>       
+            </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+<!--edit dialog ends-->
+
 <!--table-->
         <v-container fluid>
           <v-data-table
@@ -243,7 +288,7 @@
                  <td>{{ props.item.route }}</td>
                 <td>{{ props.item.vehicleMake }}</td>
                 <td>{{ props.item.vehicleModel }}</td>
-                <td>{{ props.item.vehicleDriver }}</td>               
+                <td>{{ props.item.vehicleDriver }}<v-icon exact :style="{ cursor: 'pointer'}" @click="updateDriver(props.item.vehicleNum),Editdialog=true">edit</v-icon></td>                                                            
                 <td>{{ props.item.noOfSeats }}</td>
                 <td>{{ props.item.licenseDate }}</td>
                 <td>{{ props.item.insuranceDate }}</td>
@@ -271,6 +316,7 @@ export default {
         vehicle:{
 
                 },
+        user:{},
 
             item: ['Select a driver'],
             date1: null,
@@ -280,6 +326,7 @@ export default {
             menu2: false,
             menu3: false,
             dialog: false,
+            Editdialog:false,
     
             /*navigation drawer*/
             sideNav :false,
@@ -385,6 +432,34 @@ export default {
      
       confirm('Are you sure you want to delete this Vehicle?') && self.vehicles.splice(itemIndex, 1)
         
+    },
+
+    updateDriver(n){
+       const self = this;    
+       self.$session.set('vehicle',n);
+       console.log(n);
+      
+    },
+
+    updateDriverName(){
+         const self=this;
+           self.user.username=self.$session.get('vehicle');
+          // console.log(user.username);
+           let uri='http://173.82.219.12:5555/updateDriver';
+        //axios.post(uri,{user: this.user})
+        axios.post(uri, self.user)
+          .then(res=>{
+            
+            if(res.data.response=="success"){   
+               //display a message
+            }else{
+               //error 
+            }      
+          
+          })
+          .catch(error=>{
+            console.log(error.response.data.parse)
+          });
     },
 },
     created() {
