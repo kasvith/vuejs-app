@@ -172,6 +172,9 @@ export default {
                
 
             const self=this;
+            if(this.time1==null || this.time2==null){
+                confirm("Enter a time period");
+            }
         axios.get(`http://173.82.219.12:5555/showTimeTableWithTime`,{
         params: {
         
@@ -182,8 +185,7 @@ export default {
         }
         })
           .then(response=>{
-            console.log(response)
-            //self.vehicle = response.data  
+           // console.log(response)
             self.timetable=response.data     
               
           })
@@ -194,7 +196,7 @@ export default {
         },
 
         updateTimeTable(n){
-            
+            confirm("button clicked "+n);
         }
       
     }

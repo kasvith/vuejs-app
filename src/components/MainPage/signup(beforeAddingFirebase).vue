@@ -95,11 +95,10 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click.native="dialog = false" to="/">Close</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
                     <v-btn color="blue darken-1" flat @click.native="createOwner(),dialog = false">Signup</v-btn>
                 </v-card-actions>
                 </v-card>
-               <span style="color:white"> {{ vehicle.Speed }} </span>
     </v-flex>
   </v-layout>
 </v-container>
@@ -110,16 +109,23 @@
 <script>
 import axios from "axios";
 import Toolbar2 from '@/components/toolbar2'
-import db from '@/database.js'
+import Firebase from 'firebase'
+
+ let config = {
+    apiKey: "AIzaSyDdQjRYLvoefMlvt4MnERvdMDOgQKMHs6A",
+    authDomain: "trackapp-1ee1c.firebaseapp.com",
+    databaseURL: "https://trackapp-1ee1c.firebaseio.com",
+    projectId: "trackapp-1ee1c",
+    storageBucket: "trackapp-1ee1c.appspot.com",
+    messagingSenderId: "344172659813"
+}
+
+
 
 
 export default {
-    firebase:{
-         vehicle:{
-        // source:db.ref('59029276955677351421b3ff6bf5ee4c/b977d0488fe60ba27f01392cfc686299'),
-        // asObject:true
-        }
-    },
+
+    name:'fire',
     
     data () {
       return {
@@ -175,11 +181,8 @@ methods: {
               
             if(res.data.response=="success"){   
                 this.$session.start
-                this.$session.set('username', this.owner.email);     
-                // db.ref('trackapp-1ee1c/' + this.owner.email).set({
-                //       tel: this.owner.tel
-   
-                //  });                 
+                this.$session.set('username', this.owner.email);    
+                    
                 this.$router.push('/home');
             }
             if(res.data.response=="fail"){

@@ -42,7 +42,7 @@
                                                  <label><v-btn fab dark color="secondary"  @click="onPickFile" >
                                                     <v-icon dark>photo_library</v-icon>
                                                 </v-btn>
-                                                 <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                                                 <input type="file" id="file" ref="file"  @change="onFilePicked"/>
                                                  </label>
                                                  <v-btn class="primary" v-on:click="submitFile()">Submit</v-btn>
                                                  <v-btn class="primary" v-on:click="deleteFile(vehicle.vehicleNum)">Delete</v-btn>
@@ -144,6 +144,7 @@ export default {
       latlan: [],
       a: "",
       menu3: false,
+
     };
   },
 
@@ -160,6 +161,7 @@ export default {
     self.image =
       "http://173.82.219.12:5555/file?vehicleNum=" +
       this.$session.get("vehicleNum");
+
 
     axios
       .get(`http://173.82.219.12:5555/getVehicle`, {
@@ -231,7 +233,31 @@ export default {
 
     onPickFile() {
       this.$refs.file.click();
+
     },
+    //to show the image when selected
+    onFilePicked(event) {
+      const files = event.target.files || event.dataTransfer.files
+
+        if (files && files[0]) {
+          let filename = files[0].name
+
+          if (filename && filename.lastIndexOf('.') <= 0) {
+              return //return alert('Please add a valid image!')
+          }
+
+          const fileReader = new FileReader()
+          fileReader.addEventListener('load', () => {
+          this.image = fileReader.result;
+           this.file = this.$refs.file.files[0];  
+          })
+          fileReader.readAsDataURL(files[0])
+
+          this.$emit('input', files[0])
+        }
+    },
+
+    
 
     submitFile() {
       const self = this;
@@ -264,9 +290,7 @@ export default {
         });
     },
 
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
-    },
+   
 
     deleteFile(n) {
       axios

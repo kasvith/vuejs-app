@@ -213,20 +213,10 @@ import Toolbar1 from '@/components/toolbar1'
 import Map from '@/components/map'
 import Odometer from '@/components/Management/odometer'
 import axios from "axios" 
-import Firebase from 'firebase'
 import {gmapApi} from 'vue2-google-maps'
+import db from '@/database.js'
 
-let config = {
-    apiKey: "AIzaSyDdQjRYLvoefMlvt4MnERvdMDOgQKMHs6A",
-    authDomain: "trackapp-1ee1c.firebaseapp.com",
-    databaseURL: "https://trackapp-1ee1c.firebaseio.com",
-    projectId: "trackapp-1ee1c",
-    storageBucket: "trackapp-1ee1c.appspot.com",
-    messagingSenderId: "344172659813"
-}
 
-let fire = Firebase.initializeApp(config);
-let db = fire.database();
 
  export default {
     computed: {

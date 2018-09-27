@@ -83,8 +83,12 @@ export default {
           //vehicleNum:'19-0523'  
         }
         })
-          .then(response=>{
-          self.datasets[0].data=response.data;
+          .then(function(response){
+          self.datasets[0].data=response.data.data;
+          for(var i=0;i<7;i++)
+          {
+            self.labels[i]=response.data.label[i];
+          }
            console.log(response.data);        
           })
           .catch(error=>{
