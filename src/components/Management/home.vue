@@ -165,7 +165,7 @@
            <!-- <div id="map" style="width:400px;height:400px;background:yellow"></div> -->
             <GmapMap
               :center="{lat:vehicle.Latitude, lng:vehicle.Longitude}"
-              :zoom="17"
+              :zoom="14"
               map-type-id="roadmap"
               style="width: 550px; height: 420px"
             >
@@ -180,7 +180,7 @@
      
       <v-flex d-flex xs12 sm12 md6>         
         <v-card class="text-xs-center">
-          <app-chartProfit class="mt-5"></app-chartProfit>
+          <app-chartProfit class="mt-5" id="profit"></app-chartProfit>
         </v-card>                      
       </v-flex>     
      </v-layout>
@@ -188,12 +188,12 @@
     <v-layout wrap class="ml-5">
       <v-flex d-flex xs12 sm12 md6>
         <v-card >
-            <app-chartIncome></app-chartIncome>
+            <app-chartIncome id="income"></app-chartIncome>
         </v-card>
       </v-flex>
       <v-flex d-flex xs12 sm12 md6> 
         <v-card>
-              <app-chartFuel></app-chartFuel>   
+              <app-chartFuel id="fuel"></app-chartFuel>   
         </v-card>               
        
       </v-flex>     
@@ -215,7 +215,7 @@ import Odometer from '@/components/Management/odometer'
 import axios from "axios" 
 import {gmapApi} from 'vue2-google-maps'
 import db from '@/database.js'
-
+import md5 from 'md5'
 
 
  export default {
@@ -223,33 +223,50 @@ import db from '@/database.js'
         google: gmapApi
     },
 
-    name:'fire',
-   firebase:{
-        vehicle:{
-        source:db.ref('59029276955677351421b3ff6bf5ee4c/b977d0488fe60ba27f01392cfc686299'),
-        asObject:true
-        }
-    },
+       name:'fire',
+    
+  
 
     data (){ 
+      
       return{
+        
         interval: {},
         value: 0,
         speed: '',
         trip_num: '2',
         details:{},
         vehi_numbers:[],
-        vehicleNumber:''
+        vehicleNumber:'',
+        x:'User/124578Hgdferegddghdha/47d78e6e11200ac21238bc174d8ab445',
+       
 
+        
       } 
+    
+      },    
 
-      },     
+       firebase :{
+         
+          vehicle:{
+        
+          //User/ownerEmail/deviceId
+          source:db.ref('User/124578Hgdferegddghdha/47d78e6e11200ac21238bc174d8ab445'),          
+          asObject:true
+          },
+      
+      },
+       
 
       watch: {
         vehicleNumber: function () {
               console.log(this.vehicleNumber);
               this.$session.start
               this.$session.set('vehicleNum', this.vehicleNumber)
+             
+               // this.firebase.source=db.ref('59029276955677351421b3ff6bf5ee4c/b977d0488fe60ba27f01392cfc686299');
+             
+              
           }
       },
     

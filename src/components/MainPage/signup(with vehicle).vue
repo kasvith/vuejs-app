@@ -95,10 +95,11 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="dialog = false" to="/">Close</v-btn>
                     <v-btn color="blue darken-1" flat @click.native="createOwner(),dialog = false">Signup</v-btn>
                 </v-card-actions>
                 </v-card>
+               <span style="color:white"> {{ vehicle.Speed }} </span>
     </v-flex>
   </v-layout>
 </v-container>
@@ -109,23 +110,14 @@
 <script>
 import axios from "axios";
 import Toolbar2 from '@/components/toolbar2'
-import Firebase from 'firebase'
-
- let config = {
-    apiKey: "AIzaSyDdQjRYLvoefMlvt4MnERvdMDOgQKMHs6A",
-    authDomain: "trackapp-1ee1c.firebaseapp.com",
-    databaseURL: "https://trackapp-1ee1c.firebaseio.com",
-    projectId: "trackapp-1ee1c",
-    storageBucket: "trackapp-1ee1c.appspot.com",
-    messagingSenderId: "344172659813"
-}
-
-
+import db from '@/database.js'
 
 
 export default {
-
-    name:'fire',
+    firebase:{
+        items: db.ref("User/"),
+        
+    },
     
     data () {
       return {
@@ -134,7 +126,7 @@ export default {
 
         },
         confirmPassword:'',
-
+        md5 : require('md5'),
         valid:false,
             name: '',
             nameRules: [
@@ -171,7 +163,7 @@ computed:{
 
 methods: {
      createOwner(){
-        console.log(this.owner);
+       // console.log(this.owner);
         let uri='http://173.82.219.12:5555/saveOwner';
         axios.post(uri,this.owner)
            .then(res=>{
@@ -181,8 +173,13 @@ methods: {
               
             if(res.data.response=="success"){   
                 this.$session.start
-                this.$session.set('username', this.owner.email);    
+                this.$session.set('username', this.owner.email);     
+               // console.log(md5('message'));
+                self.$firebaseRefs.items.child("Email").set({
+                    Latitude: null,
+                    Longitude: null,
                     
+            })
                 this.$router.push('/home');
             }
             if(res.data.response=="fail"){
@@ -195,8 +192,11 @@ methods: {
           });
     },
 
+    
    
 },
+
+
 }
 
 </script>

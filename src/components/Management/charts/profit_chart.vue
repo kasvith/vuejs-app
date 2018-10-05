@@ -52,8 +52,8 @@ data(){
                         },
                         ticks: {
                           beginAtZero: true,
-                          stepSize:5000,
-                          max: 24000,
+                          stepSize:10000,
+                          max: 70000,
                           min:0
                       }   
                     }]
@@ -75,7 +75,7 @@ created:function(){
         })
           .then(function(response){
           self.datasets[0].data=response.data.data;
-           for(var i=0;i<7;i++)
+           for(var i=0;i<8;i++)
           {
             self.labels[i]=response.data.label[i];
           }

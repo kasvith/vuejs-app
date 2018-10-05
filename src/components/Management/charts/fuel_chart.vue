@@ -8,7 +8,8 @@
         <chartjs-bar
                    v-bind:labels="labels"
                    v-bind:datasets="datasets"
-                   v-bind:option="option">
+                   v-bind:option="option"
+                   id = "chart">
         </chartjs-bar>
       </v-container>
   </v-container>
@@ -69,23 +70,22 @@ data(){
 },
 created:function(){
   //this.datasets[0].data=[5000, 6000, 3000, 6000, 5500, 7000, 7500];
+  
    const self=this;
     //self.datasets[0].data= [20000, 25000, 18000, 22000, 22000, 29000, 31000];
-    axios.get(`http://localhost:5555/FuelPerWeek`,{
+    axios.get(`http://173.82.219.12:5555/FuelPerWeek`,{
         params: {
-          //vehicleNum:self.$session.get('vehicleNum')  
-          vehicleNum:'19-0523'  
+          vehicleNum:self.$session.get('vehicleNum')  
+          //vehicleNum:'19-0523'  
         }
         })
           .then(function(response){
           self.datasets[0].data=response.data.data;
-          for(var i=0;i<7;i++)
+          for(var i=0;i<8;i++)
           {
             self.labels[i]=response.data.label[i];
           }
-         // self.labels=response.data.label;
-          //self.datasets[0].data=[20000, 25000, 18000, 22000, 22000, 29000, 31000];
-          //chartjs-bar.update();
+         chart.update();
           console.log(response.data);        
           })
           .catch(error=>{

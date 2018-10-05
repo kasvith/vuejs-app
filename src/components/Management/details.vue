@@ -79,7 +79,7 @@
                             <v-text-field
                             slot="activator"
                             v-model="a"
-                            label="Service date"
+                            label="Select a date"
                             prepend-icon="event"
                             readonly
                             ></v-text-field>
@@ -158,9 +158,7 @@ export default {
       this.$router.push("/login");
     }
 
-    self.image =
-      "http://173.82.219.12:5555/file?vehicleNum=" +
-      this.$session.get("vehicleNum");
+   
 
 
     axios
@@ -184,19 +182,20 @@ export default {
         }
       })
       .then(response => {
+        //console.log("data "+response.data.serviceWarning);
         if (response.data.insuranceWarning < 10) {
-         
-          document.getElementById("chip_license").style.color = "red";
+          
+          document.getElementById("chip_insurance").style.color = "red";
         }
 
         if (response.data.serviceWarning < 10) {
-          
-           document.getElementById("chip_insurance").style.color = "red";
+         
+           document.getElementById("chip_service").style.color = "red";
         }
 
         if (response.data.licenseWarning < 10) {
-          
-          document.getElementById("chip_service").style.color = "red";
+        
+          document.getElementById("chip_license").style.color = "red";
         }
       })
       .catch(error => {

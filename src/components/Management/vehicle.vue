@@ -276,24 +276,20 @@
 <!--edit dialog ends-->
 
 <!--table-->
-        <v-container fluid>
+        <v-container >
           <v-data-table
             :headers="headers"
             :items="vehicles"         
             class="elevation-1"
         >
             <template slot="items" slot-scope="props">
-                <td>{{ props.item.deviceId }}</td>
+               
                 <td><v-btn flat @click="details(props.item.vehicleNum)">{{ props.item.vehicleNum }}</v-btn></td>
                  <td>{{ props.item.route }}</td>
-                <td>{{ props.item.vehicleMake }}</td>
-                <td>{{ props.item.vehicleModel }}</td>
+                
                 <td>{{ props.item.vehicleDriver }}<v-icon exact :style="{ cursor: 'pointer'}" @click="updateDriver(props.item.vehicleNum),Editdialog=true">edit</v-icon></td>                                                            
-                <td>{{ props.item.noOfSeats }}</td>
-                <td>{{ props.item.licenseDate }}</td>
-                <td>{{ props.item.insuranceDate }}</td>
-                <td>{{ props.item.serviceDate }}</td>
-                <td><v-icon exact :style="{ cursor: 'pointer'}" @click="deleteVehicle(props.item.id);deleteIndex(props.item)">delete</v-icon></td>            
+               
+                <td><v-icon exact :style="{ cursor: 'pointer'}" @click="deleteVehicle(props.item.id,props.item.vehicleNum,props.item.deviceId);deleteIndex(props.item)">delete</v-icon></td>            
             </template>
         </v-data-table>
         </v-container>
@@ -306,8 +302,12 @@
 import Toolbar1 from '@/components/toolbar1'
 import axios from "axios";
 import db from '@/database.js'
+import md5 from 'md5'
+
 
 export default {
+    //x :md5($session.get('username')),
+   
     data(){
         return{
             vehicles: [],
@@ -328,7 +328,8 @@ export default {
             menu3: false,
             dialog: false,
             Editdialog:false,
-    
+            
+            x: md5('user1@gmail.com'),
             /*navigation drawer*/
             sideNav :false,
             menuItems:[
@@ -345,29 +346,41 @@ export default {
 
             /*table data*/
             headers: [
-            {
-                text: 'Device ID',
-                align: 'left',
-                sortable: false,
-                value: 'device' 
-                },
+            
                 { text: 'Vehicle number', value: 'vehi_num', sortable:false },
                  { text: 'Vehicle Route', value: 'vehi_make', sortable:false },
-                { text: 'Vehicle make', value: 'vehi_make', sortable:false },
-                { text: 'Vehicle model', value: 'vehi_model', sortable:false },
+               
                 { text: 'Driver', value: 'vehi_model', sortable:false },
-                { text: 'No. of seats', value: 'vehi_model', sortable:false },
-                { text: 'License date', value: 'license', sortable:false },
-                { text: 'Insurance date', value: 'insurance', sortable:false },
-                { text: 'Service date', value: 'service', sortable:false },
+                { text: 'Delete', value: 'delete', sortable:false },
+                
             ],
 
           
         }
     },
-
+   firebase: {
+       
+        items: db.ref('User/'+ this.x)
+    },
     
     methods: {
+       writeUserData(userID){
+           
+           const self=this;
+           console.log("user Id is "+userID);
+           self.$firebaseRefs.items.child(md5(self.vehicle.deviceId)).set({
+                    Latitude: 2,
+                    Longitude: 2,
+                    Speed:2,
+                    Num_Of_Persons:2,
+                    insurance_date : self.vehicle.insuranceDate,
+                    licence_date : self.vehicle.licenseDate,
+                    service_date : self.vehicle.serviceDate,
+                    vehi_model : self.vehicle.vehicleModel,
+                    vehi_num : self.vehicle.vehicleNum
+            
+           })
+        },
       
 
       details(n){
@@ -389,26 +402,46 @@ export default {
             if(response.data.response=="success"){   
                 
                 self.vehicles.push(self.vehicle)
-               //self.vehicles.push(object.assign({},self.vehicle));
+               
+            self.writeUserData(md5(self.$session.get('username')));
+           /* self.$firebaseRefs.items.child(md5(self.vehicle.deviceId)).set({
+                    Latitude: 2,
+                    Longitude: 2,
+                    Speed:2,
+                    Num_Of_Persons:2,
+                    insurance_date : self.vehicle.insuranceDate,
+                    licence_date : self.vehicle.licenseDate,
+                    service_date : self.vehicle.serviceDate,
+                    vehi_model : self.vehicle.vehicleModel,
+                    vehi_num : self.vehicle.vehicleNum
+            })*/
             }
-            if(response.data.response=="error"){
+            else{
                 confirm("Vehicle Exists. Check your vehicle number");
             }
             
           })
           .catch(error=>{
-            console.log(error.response.data.parse)
+            console.log(error)
           });
         
       },   
 
-      deleteVehicle(n){
+        
+
+      deleteVehicle(n,m,x){
+
             const self = this;
+           //self.$firebaseRefs.items.child(md5(x)).remove();
           axios.get(`http://173.82.219.12:5555/delete-vehicle`,{
     params: {
-      id:n
+      id:n,
+      vehicleNum:m,
+     //since servers delete-vehicle method do not accept vehicle number yet it has to be updated
+     //take device id as a parameter so firebase instance can be deleted
     },
 
+    
     
   })
 

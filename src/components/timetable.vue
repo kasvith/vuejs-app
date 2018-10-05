@@ -1,5 +1,7 @@
 <template>
+
 <v-container>
+    <dialog></dialog>
     <v-layout row>
     <div>
         <v-btn fab dark class="text-xs-center" color="secondary" to="/">
@@ -150,7 +152,7 @@ export default {
             from: ['Matara','Galle'],
             to: ['Kadawatha','Galle'],
             radios: 'date',
-
+            dialog:false, 
             time1:null,
             time2:null,
             menu1:false,

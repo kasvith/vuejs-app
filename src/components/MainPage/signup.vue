@@ -95,11 +95,10 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click.native="dialog = false" to="/">Close</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
                     <v-btn color="blue darken-1" flat @click.native="createOwner(),dialog = false">Signup</v-btn>
                 </v-card-actions>
                 </v-card>
-               <span style="color:white"> {{ vehicle.Speed }} </span>
     </v-flex>
   </v-layout>
 </v-container>
@@ -110,17 +109,18 @@
 <script>
 import axios from "axios";
 import Toolbar2 from '@/components/toolbar2'
+//import Firebase from 'firebase'
 import db from '@/database.js'
+import md5 from 'md5'
+
+
 
 
 export default {
-    firebase:{
-         vehicle:{
-        // source:db.ref('59029276955677351421b3ff6bf5ee4c/b977d0488fe60ba27f01392cfc686299'),
-        // asObject:true
-        }
-    },
     
+    firebase: {
+        items: db.ref('User')
+    },
     data () {
       return {
 
@@ -152,14 +152,14 @@ export default {
       }
      
 },
-
+ 
 computed:{
     comparePasswords(){
         return this.owner.password!==this.confirmPassword ? 'Passwords do not match' :true
     }
 },
 
- components:{
+components:{
             'app-toolbar2': Toolbar2
          }, 
 
@@ -175,11 +175,11 @@ methods: {
               
             if(res.data.response=="success"){   
                 this.$session.start
-                this.$session.set('username', this.owner.email);     
-                // db.ref('trackapp-1ee1c/' + this.owner.email).set({
-                //       tel: this.owner.tel
-   
-                //  });                 
+                this.$session.set('username', this.owner.email);    
+                this.$firebaseRefs.items.child(md5(this.owner.email)).set({
+                    Latitude: "null"                    
+                    
+            })    
                 this.$router.push('/home');
             }
             if(res.data.response=="fail"){

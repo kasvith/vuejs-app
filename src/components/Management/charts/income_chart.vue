@@ -65,8 +65,8 @@ export default {
               },
               ticks: {
                 beginAtZero: true,
-                stepSize: 4000,
-                max: 32000
+                stepSize: 10000,
+                max: 70000
               }
             }
           ]
@@ -85,7 +85,7 @@ export default {
         })
           .then(function(response){
           self.datasets[0].data=response.data.data;
-          for(var i=0;i<7;i++)
+          for(var i=0;i<8;i++)
           {
             self.labels[i]=response.data.label[i];
           }
